@@ -1,0 +1,9 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - go test -race -covermode=atomic -coverprofile=coverage.out ./...
+    silent: true
