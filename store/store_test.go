@@ -1,33 +1,56 @@
 package store_test
 
 import (
+	"log"
+	"os"
 	"testing"
 
-	"fyne.io/fyne/v2/test"
 	"github.com/brittonhayes/pod/store"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStore(t *testing.T) {
+func TestDB(t *testing.T) {
+	dbName := "pod"
 
-	key := "example"
-	arg := "hello"
-	expect := "hello"
+	db, err := store.NewDB(dbName)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	app := test.NewApp()
-	s := store.New(app)
+	defaultKey := "test_key"
+	defaultValue := map[string]interface{}{
+		"test": "test",
+	}
 
-	t.Run("test set value", func(t *testing.T) {
-		s.Set(key, arg)
-
-		got := app.Preferences().String(key)
-		assert.Equal(t, expect, got)
+	t.Run("test store set", func(t *testing.T) {
+		err := db.Set(defaultKey, &defaultValue)
+		assert.NoError(t, err)
 	})
 
-	t.Run("test get value", func(t *testing.T) {
+	t.Run("test store get", func(t *testing.T) {
+		value := map[string]interface{}{}
 
-		got := s.Get(key)
-		assert.Equal(t, expect, got)
+		err := db.Get(defaultKey, &value)
+		assert.NoError(t, err)
+
+		assert.Equal(t, value, defaultValue)
 	})
 
+	t.Run("test store delete", func(t *testing.T) {
+		value := map[string]interface{}{}
+
+		err := db.Delete(defaultKey)
+		assert.NoError(t, err)
+
+		assert.Empty(t, value)
+	})
+
+	t.Cleanup(func() {
+		path, err := db.Path()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		os.Remove(path)
+	})
 }

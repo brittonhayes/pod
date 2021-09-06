@@ -5,5 +5,11 @@ version: '3'
 tasks:
   default:
     cmds:
-      - go test -race -covermode=atomic -coverprofile=coverage.out ./...
+      - task: test
     silent: true
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test -race -covermode=atomic -coverprofile=coverage.out ./...
+      - go tool cover -func coverage.out
