@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/asdine/storm/v3"
+	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -26,30 +27,20 @@ type Store interface {
 	Delete(string) error
 }
 
-func (db *DB) Path() (string, error) {
-	if db.bucket == "" {
-		return ErrMustProvideDir.Error(), ErrMustProvideDir
-	}
-
+func Path(name string) string {
 	config, err := os.UserConfigDir()
 	if err != nil {
-		return ErrMustContainDB.Error(), err
+		log.Fatal().Err(err).Send()
 	}
 
-	return filepath.Join(config, db.bucket, db.bucket+".db"), nil
+	return filepath.Join(config, name, name+".db")
 }
 
 func NewDB(name string) (*DB, error) {
-
 	defaultDB := &DB{}
 
-	config, err := os.UserConfigDir()
-	if err != nil {
-		return defaultDB, err
-	}
-
-	dbPath := filepath.Join(config, name, name+".db")
-	db, err := storm.Open(dbPath)
+	path := Path(name)
+	db, err := storm.Open(path)
 	if err != nil {
 		return defaultDB, err
 	}
@@ -58,6 +49,10 @@ func NewDB(name string) (*DB, error) {
 		bucket: name,
 		db:     db,
 	}, nil
+}
+
+func (s *DB) Close() error {
+	return s.db.Close()
 }
 
 func (s *DB) Set(k string, v interface{}) error {

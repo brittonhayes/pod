@@ -3,6 +3,7 @@ package store_test
 import (
 	"log"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/brittonhayes/pod/store"
@@ -46,11 +47,7 @@ func TestDB(t *testing.T) {
 	})
 
 	t.Cleanup(func() {
-		path, err := db.Path()
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		path := filepath.Dir(store.Path(dbName))
 		os.Remove(path)
 	})
 }

@@ -4,8 +4,8 @@ import (
 	_ "embed"
 	"os"
 
+	"github.com/brittonhayes/pod/internal/tray"
 	"github.com/getlantern/systray"
-	"github.com/getlantern/systray/example/icon"
 	"github.com/rs/zerolog/log"
 )
 
@@ -16,28 +16,35 @@ const (
 //go:embed logo.png
 var logo []byte
 
-func main() {
-	systray.Run(onReady, onExit)
+func init() {
+	err := tray.Initialize()
+	if err != nil {
+		log.Fatal().Err(err).Send()
+	}
 }
 
 func onExit() {
-	log.Info().Msg("Exiting application")
+	log.Info().Msg("exiting application")
 	os.Exit(ExitStatusOK)
-}
-
-func handleQuit(m *systray.MenuItem) {
-	<-m.ClickedCh
-	log.Info().Msg("Requested application quit")
-	systray.Quit()
 }
 
 func onReady() {
 	systray.SetIcon(logo)
 	systray.SetTitle("pod")
 	systray.SetTooltip("pro audio project utility")
-	mQuit := systray.AddMenuItem("Quit", "Quit the pod application")
-	go handleQuit(mQuit)
 
-	// Sets the icon of a menu item. Only available on Mac and Windows.
-	mQuit.SetIcon(icon.Data)
+	projects := systray.AddMenuItem("View Projects", "View projects in files")
+	go tray.ViewProjects(projects)
+
+	clients := systray.AddMenuItem("View Clients", "View clients in files")
+	go tray.ViewClients(clients)
+
+	systray.AddSeparator()
+
+	quitBtn := systray.AddMenuItem("Quit", "Quit the application")
+	go tray.Quit(quitBtn)
+}
+
+func main() {
+	systray.Run(onReady, onExit)
 }

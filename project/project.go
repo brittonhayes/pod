@@ -1,6 +1,8 @@
 package project
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/brittonhayes/pod/input"
@@ -27,7 +29,7 @@ func NewProject(name string) (*Project, error) {
 
 	return &Project{
 		ID:        id.ID(),
-		Name:      name,
+		Name:      input.StringToSnake(name),
 		Client:    &Client{},
 		CreatedAt: time.Now().Local(),
 	}, nil
@@ -36,8 +38,10 @@ func NewProject(name string) (*Project, error) {
 func (p *Project) Save() (bool, error) {
 	db, err := store.NewDB(DBName)
 	if err != nil {
-		return false, ErrSave
+		e := fmt.Sprintf("%s - %s", err.Error(), ErrSave.Error())
+		return false, errors.New(e)
 	}
+	defer db.Close()
 
 	key := input.StringToSnake(p.Name)
 	err = db.Set(key, &p)
