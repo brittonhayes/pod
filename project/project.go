@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/brittonhayes/pod/input"
 	"github.com/brittonhayes/pod/store"
-	"github.com/google/uuid"
 )
 
 const (
@@ -15,24 +13,50 @@ const (
 )
 
 type Project struct {
-	ID        uint32
-	Name      string
+	ID        uint32 `storm:"id,increment"`
+	Name      string `storm:"index,unique"`
+	Summary   string
 	Client    *Client
 	CreatedAt time.Time
 }
 
-func NewProject(name string) (*Project, error) {
-	id, err := uuid.NewUUID()
+func NewProject(name string) *Project {
+	return &Project{
+		Name:    name,
+		Client:  &Client{},
+		Summary: "",
+	}
+}
+
+func (p *Project) Delete() (bool, error) {
+	db, err := store.NewDB(DBName)
 	if err != nil {
-		return nil, ErrUUID
+		e := fmt.Sprintf("%s - %s", err.Error(), ErrSave.Error())
+		return false, errors.New(e)
+	}
+	defer db.Close()
+
+	err = db.Delete(p)
+	if err != nil {
+		return false, err
 	}
 
-	return &Project{
-		ID:        id.ID(),
-		Name:      input.StringToSnake(name),
-		Client:    &Client{},
-		CreatedAt: time.Now().Local(),
-	}, nil
+	return true, nil
+}
+
+func (p *Project) Query(field, value string, to []Project) (bool, error) {
+	db, err := store.NewDB(DBName)
+	if err != nil {
+		return false, ErrSave
+	}
+	defer db.Close()
+
+	err = db.Query(field, value, &to)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (p *Project) Save() (bool, error) {
@@ -43,8 +67,8 @@ func (p *Project) Save() (bool, error) {
 	}
 	defer db.Close()
 
-	key := input.StringToSnake(p.Name)
-	err = db.Set(key, &p)
+	p.CreatedAt = time.Now()
+	err = db.Set(p)
 	if err != nil {
 		return false, err
 	}

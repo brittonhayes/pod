@@ -10,6 +10,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type Example struct {
+	ID   int    `storm:"id,increment"`
+	Name string `storm:"index"`
+}
+
 func TestDB(t *testing.T) {
 	dbName := "pod"
 
@@ -18,32 +23,44 @@ func TestDB(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	defaultKey := "test_key"
-	defaultValue := map[string]interface{}{
-		"test": "test",
+	defaultField := "Name"
+	defaultName := "test_name"
+	arg := Example{
+		Name: defaultName,
 	}
 
 	t.Run("test store set", func(t *testing.T) {
-		err := db.Set(defaultKey, &defaultValue)
+		err := db.Set(&arg)
 		assert.NoError(t, err)
 	})
 
 	t.Run("test store get", func(t *testing.T) {
-		value := map[string]interface{}{}
+		to := Example{}
 
-		err := db.Get(defaultKey, &value)
+		err := db.Get(defaultField, defaultName, &to)
 		assert.NoError(t, err)
 
-		assert.Equal(t, value, defaultValue)
+		assert.Equal(t, &arg, &to)
+	})
+
+	t.Run("test store query", func(t *testing.T) {
+		var to []Example
+		expect := []Example{
+			{
+				ID:   1,
+				Name: defaultName,
+			},
+		}
+
+		err := db.Query(defaultField, defaultName[0:3], &to)
+		assert.NoError(t, err)
+
+		assert.Equal(t, expect, to)
 	})
 
 	t.Run("test store delete", func(t *testing.T) {
-		value := map[string]interface{}{}
-
-		err := db.Delete(defaultKey)
+		err := db.Delete(&arg)
 		assert.NoError(t, err)
-
-		assert.Empty(t, value)
 	})
 
 	t.Cleanup(func() {
