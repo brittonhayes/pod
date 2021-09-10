@@ -1,0 +1,18 @@
+builds:
+  - skip: true
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+release:
+    header: |
+      ## Pod Release - {{ .Date }}
+    extra_files:
+    - glob: ./build/*
