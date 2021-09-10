@@ -9,10 +9,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-const (
-	ExitStatusOK = 0
-)
-
 //go:embed logo.png
 var logo []byte
 
@@ -25,7 +21,7 @@ func init() {
 
 func onExit() {
 	log.Info().Msg("exiting application")
-	os.Exit(ExitStatusOK)
+	os.Exit(0)
 }
 
 func onReady() {

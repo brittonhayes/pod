@@ -11,6 +11,7 @@ require (
 	github.com/rs/zerolog v1.24.0
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/stretchr/testify v1.7.0
+	github.com/wailsapp/wails v1.16.7
 	go.etcd.io/bbolt v1.3.6 // indirect
 	golang.org/x/net v0.0.0-20210903162142-ad29c8ab022f // indirect
 	golang.org/x/sys v0.0.0-20210906170528-6f6e22806c34 // indirect
