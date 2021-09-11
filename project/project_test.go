@@ -2,15 +2,17 @@ package project_test
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
+	"github.com/brittonhayes/pod/internal/system"
 	"github.com/brittonhayes/pod/project"
 	"github.com/brittonhayes/pod/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewProject(t *testing.T) {
+	system.Initialize()
+
 	dbName := "pod"
 
 	arg := "Example Project"
@@ -40,9 +42,12 @@ func TestNewProject(t *testing.T) {
 		assert.True(t, ok)
 	})
 
-	t.Cleanup(func() {
-		path := filepath.Dir(store.Path(dbName))
-		os.Remove(path)
+	defer t.Cleanup(func() {
+		p := store.Path(dbName)
+		t.Log(p)
+		err := os.Remove(p)
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
-
 }

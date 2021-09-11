@@ -1,13 +1,17 @@
 <template>
-    <b-button @click="action" :class="[padding,color]">{{text}}</b-button>
+    <Button @click="action" :class="[margin,padding,color]">{{text}}</Button>
 </template>
 
 <script>
+import {Button} from 'buefy/dist/components/button';
 export default {
+  components: {
+      Button,
+  },
   data() {
     return {
       margin: "m-2",
-      padding: "m-2"
+      padding: "p-2"
     };
   },
   methods: {

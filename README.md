@@ -4,11 +4,15 @@
 
 > Project and client management application for audio professionals
 
+<p align=center>
+    <image src="./preview.png" width="500px"/>
+</p>
+
 ## Installation
 
-Check out the releases for the latest OSX installers and Linux executables. 
+Check out the releases for the latest OSX installers and Linux executables.
 
-## Development 
+## Development
 
 ### Requirements
 

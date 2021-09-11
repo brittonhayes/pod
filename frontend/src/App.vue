@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <HelloWorld/>
+    <Sidebar />
+    <router-view class="margin-body"></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import Sidebar from "@/components/Sidebar.vue";
 export default {
   name: "app",
-  components: {
-    HelloWorld
-  }
+  components: { Sidebar },
 };
 </script>
+
+<style>
+.margin-body {
+  margin-top: 20px;
+  margin-left: 120px;
+}
+</style>

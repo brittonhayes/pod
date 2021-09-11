@@ -6,10 +6,6 @@ import (
 	"github.com/wailsapp/wails"
 )
 
-func basic() string {
-	return "Hello World!"
-}
-
 //go:embed frontend/dist/app.js
 var js string
 
@@ -25,6 +21,5 @@ func main() {
 		CSS:    css,
 		Colour: "#131313",
 	})
-	app.Bind(basic)
 	app.Run()
 }

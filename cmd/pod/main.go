@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"os"
 
+	"github.com/brittonhayes/pod/internal/system"
 	"github.com/brittonhayes/pod/internal/tray"
 	"github.com/getlantern/systray"
 	"github.com/rs/zerolog/log"
@@ -13,7 +14,7 @@ import (
 var logo []byte
 
 func init() {
-	err := tray.Initialize()
+	err := system.Initialize()
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}

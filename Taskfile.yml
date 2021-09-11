@@ -9,7 +9,17 @@ tasks:
     silent: true
 
   test:
-    desc: Run tests
+    desc: Run test suite
+    cmds:
+      - task: test:ui
+      - task: test:backend
+
+  test:ui:
+    dir: frontend
+    cmds:
+      - npm run test:unit
+
+  test:backend:
     cmds:
       - go test -race -covermode=atomic -coverprofile=coverage.out ./...
       - go tool cover -func coverage.out
