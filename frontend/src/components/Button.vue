@@ -1,16 +1,17 @@
 <template>
-  <b-button
+  <Button
     @click="action"
     :type="fgColor"
     :size="size"
     :icon-left="icon"
     :class="[classes.button]"
-    >{{ text }}</b-button
+    >{{ text }}</Button
   >
 </template>
 
 <script>
 import Color from "@/mixins/Color.js";
+import { Button } from "buefy/dist/components/button";
 export default {
   data() {
     return {
@@ -22,6 +23,7 @@ export default {
       },
     };
   },
+  components: { Button },
   mixins: [Color],
   methods: {
     action() {
