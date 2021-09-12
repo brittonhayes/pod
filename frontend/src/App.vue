@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Sidebar />
+    <sidebar />
     <router-view class="margin-body"></router-view>
   </div>
 </template>
@@ -16,6 +16,8 @@ export default {
 <style>
 .margin-body {
   margin-top: 20px;
+  margin-bottom: 20px;
   margin-left: 120px;
+  margin-right: 30px;
 }
 </style>

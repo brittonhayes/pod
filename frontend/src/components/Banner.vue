@@ -1,7 +1,7 @@
 <template>
-  <section class="hero is-light">
+  <section :class="[classes.section, bgColor]">
     <div class="hero-body">
-      <h1 class="title is-size-3 has-text-success has-text-weight-light pb-2">
+      <h1 :class="[classes.header, textColor]">
         {{ title }}
       </h1>
       <h2 class="subtitle is-size-6">
@@ -12,8 +12,26 @@
 </template>
 
 <script>
+import Text from "@/mixins/Text.js";
+import Color from "@/mixins/Color.js";
 export default {
   name: "Banner",
+  mixins: [Color, Text],
+  data() {
+    return {
+      classes: {
+        header: {
+          title: true,
+          "is-size-3": true,
+          "pb-2": true,
+        },
+        section: {
+          "mb-3": true,
+          hero: true,
+        },
+      },
+    };
+  },
   props: {
     title: {
       type: String,
@@ -22,9 +40,6 @@ export default {
     subtitle: {
       type: String,
     },
-  },
-  data() {
-    return {};
   },
 };
 </script>

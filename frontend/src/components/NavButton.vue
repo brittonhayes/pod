@@ -1,44 +1,34 @@
 <template>
   <b-button
-    :to="route"
-    size="is-medium"
+    :to="to"
+    tag="router-link"
+    :size="size"
     class="m-2"
-    :type="color"
+    :type="fgColor"
     :icon-left="icon"
   />
 </template>
 
 <script>
+import Color from "@/mixins/Color.js";
 export default {
   data() {
     return {
       margin: "m-2",
     };
   },
+  mixins: [Color],
   props: {
-    route: {
+    to: {
       type: String,
-    },
-    color: {
-      type: String,
-      default: "is-success",
-      validator: function(value) {
-        return (
-          [
-            "is-primary",
-            "is-info",
-            "is-success",
-            "is-warning",
-            "is-danger",
-            "is-dark",
-            "is-light",
-          ].indexOf(value) !== -1
-        );
-      },
     },
     icon: {
       type: String,
       default: "user",
+    },
+    size: {
+      type: String,
+      default: "is-medium",
     },
   },
 };

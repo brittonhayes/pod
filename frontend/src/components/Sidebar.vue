@@ -7,16 +7,15 @@
       :overlay="false"
       open
     >
-      <b-icon
-        size="is-large"
-        icon="leaf"
-        type="is-light"
-        class="m-2 pl-2 logo-light"
-      ></b-icon>
-      <NavButton icon="tasks" />
-      <NavButton icon="address-book" />
-      <NavButton icon="volume-up" />
-      <NavButton icon="cog" />
+      <nav-button
+        v-for="route in routes"
+        :key="route.path"
+        :icon="route.meta.icon"
+        :size="route.meta.iconSize"
+        :to="route.path"
+        color="success"
+        >{{ route.path }}</nav-button
+      >
     </b-sidebar>
   </section>
 </template>
@@ -25,6 +24,11 @@
 import NavButton from "@/components/NavButton.vue";
 export default {
   components: { NavButton },
+  data() {
+    return {
+      routes: this.$router.options.routes,
+    };
+  },
   compontents: {
     NavButton,
   },

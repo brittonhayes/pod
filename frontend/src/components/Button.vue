@@ -1,35 +1,45 @@
 <template>
-    <Button @click="action" :class="[margin,padding,color]">{{text}}</Button>
+  <b-button
+    @click="action"
+    :type="fgColor"
+    :size="size"
+    :icon-left="icon"
+    :class="[classes.button]"
+    >{{ text }}</b-button
+  >
 </template>
 
 <script>
-import {Button} from 'buefy/dist/components/button';
+import Color from "@/mixins/Color.js";
 export default {
-  components: {
-      Button,
-  },
   data() {
     return {
-      margin: "m-2",
-      padding: "p-2"
+      classes: {
+        button: {
+          margin: "m-2",
+          padding: "p-2",
+        },
+      },
     };
   },
+  mixins: [Color],
   methods: {
     action() {
-        this.$emit("action")
+      this.$emit("action");
     },
   },
   props: {
-      color: {
-        type: String,
-        default: "is-primary",
-        validator: function(value) {
-            return ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger', 'is-dark', 'is-light'].indexOf(value) !== -1
-        },
-      },
-      text: {
-          type: String, Number,
-      },
+    text: {
+      type: [String, Number],
+    },
+    icon: {
+      type: String,
+      default: "",
+    },
+    size: {
+      type: String,
+      default: "",
+    },
   },
 };
 </script>

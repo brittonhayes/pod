@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :title="title" :subtitle="subtitle" />
+    <Banner :title="title" :subtitle="subtitle" color="light" />
     <div class="columns">
       <div class="column my-5 mx-3 box has-background-success has-text-white">
         Recent projects
@@ -20,18 +20,17 @@
 </template>
 
 <script>
+import Page from "@/mixins/Page.js";
 import Banner from "@/components/Banner.vue";
 import Table from "@/components/Table.vue";
 export default {
+  mixins: [Page],
   components: {
     Banner,
     Table,
   },
   data() {
-    return {
-      title: "Pod 🌱",
-      subtitle: "The audio professional's productivity center",
-    };
+    return {};
   },
 };
 </script>

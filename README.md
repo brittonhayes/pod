@@ -2,7 +2,7 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/brittonhayes/pod.svg)](https://pkg.go.dev/github.com/brittonhayes/pod)
 
-> Project and client management application for audio professionals
+> Productivity application for audio professionals
 
 <p align=center>
     <image src="./preview.png" width="500px"/>
