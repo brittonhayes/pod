@@ -1,4 +1,4 @@
-import { MustBeOneOf } from "./Validator";
+import { MustBeOneOf } from "@/lib/validate.js";
 
 const validColors = [
   "",

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/brittonhayes/pod/store"
+	"github.com/brittonhayes/pod/backend/store"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/brittonhayes/pod/project"
-	"github.com/brittonhayes/pod/store"
+	"github.com/brittonhayes/pod/backend/project"
+	"github.com/brittonhayes/pod/backend/store"
 )
 
 func Initialize() error {

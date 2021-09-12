@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/brittonhayes/pod/internal/system"
-	"github.com/brittonhayes/pod/project"
-	"github.com/brittonhayes/pod/store"
+	"github.com/brittonhayes/pod/backend/internal/system"
+	"github.com/brittonhayes/pod/backend/project"
+	"github.com/brittonhayes/pod/backend/store"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -3,7 +3,7 @@ package tray
 import (
 	"fmt"
 
-	"github.com/brittonhayes/pod/project"
+	"github.com/brittonhayes/pod/backend/project"
 	"github.com/gen2brain/beeep"
 	"github.com/getlantern/systray"
 	"github.com/rs/zerolog/log"

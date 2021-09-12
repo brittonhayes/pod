@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/brittonhayes/pod/store"
+	"github.com/brittonhayes/pod/backend/store"
 )
 
 const (

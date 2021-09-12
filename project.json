@@ -15,7 +15,7 @@
   "serve": "npm run serve"
  },
  "tags": "",
- "WailsVersion": "",
+ "WailsVersion": "1.16.7",
  "CrossCompile": false,
  "Platform": "",
  "Architecture": "",

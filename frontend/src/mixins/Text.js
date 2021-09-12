@@ -1,4 +1,4 @@
-import { MustBeOneOf } from "./Validator";
+import { MustBeOneOf } from "@/lib/validate.js";
 
 const validSizes = [1, 2, 3, 4, 5, 6, 7];
 const validWeights = ["bold", "regular", "light"];

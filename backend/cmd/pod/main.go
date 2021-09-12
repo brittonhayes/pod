@@ -4,8 +4,8 @@ import (
 	_ "embed"
 	"os"
 
-	"github.com/brittonhayes/pod/internal/system"
-	"github.com/brittonhayes/pod/internal/tray"
+	"github.com/brittonhayes/pod/backend/internal/system"
+	"github.com/brittonhayes/pod/backend/internal/tray"
 	"github.com/getlantern/systray"
 	"github.com/rs/zerolog/log"
 )
