@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :title="title" :subtitle="subtitle" color="light" />
+    <Banner :title="title" :subtitle="subtitle" />
   </div>
 </template>
 

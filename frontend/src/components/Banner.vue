@@ -22,12 +22,13 @@ export default {
       classes: {
         header: {
           title: true,
-          "is-size-3": true,
+          "is-size-4": true,
           "pb-2": true,
         },
         section: {
           "mb-3": true,
           hero: true,
+          "is-small": true,
         },
       },
     };

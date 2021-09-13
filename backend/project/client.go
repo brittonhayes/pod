@@ -8,24 +8,26 @@ import (
 	"github.com/brittonhayes/pod/backend/store"
 )
 
-type Contact struct {
-	Email  string
-	Phone  string
-	Social map[string]string
-}
 type Client struct {
-	ID          int    `storm:"id,increment"`
-	Name        string `storm:"index,unique"`
-	Description string
-	Contact     Contact
-	CreatedAt   time.Time
+	ID          int               `storm:"id,increment" json:"id"`
+	Name        string            `storm:"index,unique" json:"name"`
+	Description string            `json:"description"`
+	Email       string            `json:"email"`
+	Phone       string            `json:"phone"`
+	Social      map[string]string `json:"social"`
+	CreatedAt   time.Time         `json:"created_at"`
 }
 
-func NewClient(name string) *Client {
-	return &Client{
-		Name:        name,
-		Description: "",
-	}
+func NewClient() *Client {
+	return &Client{}
+}
+
+func (c *Client) With(name, description, email, phone string) *Client {
+	c.Name = name
+	c.Description = description
+	c.Email = email
+	c.Phone = phone
+	return c
 }
 
 func (c *Client) Save() (bool, error) {

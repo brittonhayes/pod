@@ -3,7 +3,7 @@
     :to="to"
     tag="router-link"
     :size="size"
-    class="m-2"
+    :class="classObject"
     :type="fgColor"
     :icon-left="icon"
   />
@@ -13,9 +13,7 @@
 import Color from "@/mixins/Color.js";
 export default {
   data() {
-    return {
-      margin: "m-2",
-    };
+    return {};
   },
   mixins: [Color],
   props: {
@@ -29,6 +27,13 @@ export default {
     size: {
       type: String,
       default: "is-medium",
+    },
+  },
+  computed: {
+    classObject: function() {
+      return {
+        "m-2": true,
+      };
     },
   },
 };

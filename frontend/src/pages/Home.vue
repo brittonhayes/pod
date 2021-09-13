@@ -1,36 +1,56 @@
 <template>
   <div>
-    <Banner :title="title" :subtitle="subtitle" color="light" />
-    <div class="columns">
-      <div class="column my-5 mx-3 box has-background-success has-text-white">
-        Recent projects
+    <Banner :title="title" :subtitle="subtitle" />
+    <section class="section">
+      <div class="columns is-multiline">
+        <card color="success" class="p-0">
+          <h1 class="is-size-2 p-1 has-text-centered">🌴</h1>
+        </card>
+        <card color="success" class="p-0">
+          <h1 class="is-size-2 p-1 has-text-centered">🌴</h1>
+        </card>
+        <card color="success" class="p-0">
+          <h1 class="is-size-2 p-1 has-text-centered">🌴</h1>
+        </card>
       </div>
-      <div class="column my-5 mx-3 box">
-        Clients
-      </div>
-      <div class="column my-5 mx-3 box">
-        Sounds
-      </div>
-      <div class="column my-5 mx-3 box">
-        Settings
-      </div>
-    </div>
-    <Table />
+    </section>
+    <section class="mx-5">
+      <article v-for="i in media" :key="i">
+        <feed class="notification is-light">
+          <template v-slot:header>
+            <h1>{{ i }}</h1>
+          </template>
+          <template v-slot:subtitle>
+            <p>Here might be a page title</p>
+          </template>
+          <template v-slot:icon-left>
+            <p>x</p>
+          </template>
+          <template v-slot:icon-right>
+            <p>o</p>
+          </template>
+        </feed>
+      </article>
+    </section>
   </div>
 </template>
 
 <script>
 import Page from "@/mixins/Page.js";
 import Banner from "@/components/Banner.vue";
-import Table from "@/components/Table.vue";
+import Card from "@/components/Card.vue";
+import Feed from "@/components/Feed.vue";
 export default {
   mixins: [Page],
   components: {
     Banner,
-    Table,
+    Card,
+    Feed,
   },
   data() {
-    return {};
+    return {
+      media: 3,
+    };
   },
 };
 </script>

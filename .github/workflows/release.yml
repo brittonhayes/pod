@@ -58,10 +58,10 @@ jobs:
           export GODEBUG=1
           wails build
           tar -czvf pod.tar.gz ./build/pod
-          # wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-          # chmod +x linuxdeploy*.AppImage
-          # ls ./
-          # ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon-file=appicon--512.png --output appimage
+          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy*.AppImage
+          ls ./
+          ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon-file=appicon--512.png --output appimage
         if: matrix.os == 'ubuntu-latest'
 
       - name: upload artifact macOS
@@ -77,12 +77,13 @@ jobs:
           name: pod-linux
           path: pod.tar.gz
         if: matrix.os == 'ubuntu-latest'
-      #      - name: upload artifact linux appimage
-      #        uses: actions/upload-artifact@v2-preview
-      #        with:
-      #          name: pod-linux-appimage
-      #          path: Optimus-${{ env.VERSION }}-x86_64.AppImage
-      #        if: matrix.os == 'ubuntu-latest'
+
+      - name: upload artifact linux appimage
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: pod-linux-appimage
+          path: pod-${{ env.VERSION }}-x86_64.AppImage
+        if: matrix.os == 'ubuntu-latest'
 
   release:
     runs-on: ubuntu-latest

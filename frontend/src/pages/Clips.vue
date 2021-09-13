@@ -21,8 +21,7 @@ export default {
       items: [
         {
           id: 1,
-          title: "vo_mixdown_1.wav",
-          body: "hello",
+          name: "vo_mixdown_1.wav",
         },
       ],
     };

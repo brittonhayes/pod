@@ -13,19 +13,22 @@ const (
 )
 
 type Project struct {
-	ID        uint32 `storm:"id,increment"`
-	Name      string `storm:"index,unique"`
-	Summary   string
-	Client    *Client
-	CreatedAt time.Time
+	ID        uint32    `storm:"id,increment" json:"id"`
+	Name      string    `storm:"index,unique" json:"name"`
+	Summary   string    `json:"summary"`
+	Client    string    `json:"client"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewProject(name string) *Project {
-	return &Project{
-		Name:    name,
-		Client:  &Client{},
-		Summary: "",
-	}
+func NewProject() *Project {
+	return &Project{}
+}
+
+func (p *Project) With(name, summary, client string) *Project {
+	p.Name = name
+	p.Summary = summary
+	p.Client = client
+	return p
 }
 
 func (p *Project) Save() (bool, error) {
@@ -69,6 +72,21 @@ func (p *Project) Query(field, value string, to []Project) (bool, error) {
 	defer db.Close()
 
 	err = db.Query(field, value, &to)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func (p *Project) List(to []*Project) (bool, error) {
+	db, err := store.NewDB(DBName)
+	if err != nil {
+		return false, err
+	}
+	defer db.Close()
+
+	err = db.List(&to)
 	if err != nil {
 		return false, err
 	}

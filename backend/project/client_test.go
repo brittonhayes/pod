@@ -4,19 +4,20 @@ import (
 	"os"
 	"testing"
 
-	"github.com/brittonhayes/pod/backend/internal/system"
+	"github.com/brittonhayes/pod/backend/config"
 	"github.com/brittonhayes/pod/backend/project"
 	"github.com/brittonhayes/pod/backend/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewClient(t *testing.T) {
-	system.Initialize()
+	config.Run()
 
 	dbName := "pod"
 
 	arg := "Example Client"
-	c := project.NewClient(arg)
+	c := project.NewClient()
+	c.With(arg, arg, arg, arg)
 
 	t.Run("create new client", func(t *testing.T) {
 		assert.Equal(t, arg, c.Name)

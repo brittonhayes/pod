@@ -36,6 +36,7 @@ import {
   faHeadphones,
   faFolder,
   faPencilAlt,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -67,7 +68,8 @@ library.add(
   faCut,
   faHeadphones,
   faFolder,
-  faPencilAlt
+  faPencilAlt,
+  faPlus
 );
 
 Vue.component("vue-fontawesome", FontAwesomeIcon);
@@ -89,6 +91,11 @@ import Clients from "./pages/Clients.vue";
 import Projects from "./pages/Projects.vue";
 import Clips from "./pages/Clips.vue";
 import Settings from "./pages/Settings.vue";
+// import the store
+import store from "./store";
+
+Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
 const routes = [
   {
@@ -108,7 +115,7 @@ const routes = [
     component: Projects,
     meta: {
       title: "Projects 📝",
-      subtitle: "",
+      subtitle: "Tasks, folders, and documents",
       icon: "tasks",
       iconSize: "is-medium",
     },
@@ -119,7 +126,7 @@ const routes = [
     component: Clients,
     meta: {
       title: "Clients 👥",
-      subtitle: "View your clients and customers",
+      subtitle: "Customers and connections",
       icon: "address-book",
       iconSize: "is-medium",
     },
@@ -151,12 +158,14 @@ const routes = [
 const router = new VueRouter({
   mode: "abstract",
   routes,
+  linkExactActiveClass: "is-active", // active class for *exact* links.
 });
 
 Wails.Init(() => {
   new Vue({
     render: (h) => h(App),
     router,
+    store,
     mounted() {
       this.$router.replace("/");
     },

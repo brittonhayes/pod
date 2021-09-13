@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Banner :title="title" :subtitle="subtitle" color="light" />
-    <Cards :items="items" color="success" />
+    <Banner :title="title" :subtitle="subtitle" />
+    <Cards :items="items" color="light" />
   </div>
 </template>
 
@@ -18,13 +18,13 @@ export default {
   data() {
     return {
       items: [
-        { id: 1, title: "John Doe", body: "" },
-        { id: 2, title: "Jane Dosepth", body: "" },
-        { id: 3, title: "Sarah Marshal", body: "" },
-        { id: 4, title: "Hugh Bridges", body: "" },
-        { id: 5, title: "Alana Thomas", body: "" },
-        { id: 6, title: "Paula James", body: "" },
-        { id: 7, title: "Steve Rogers", body: "" },
+        { id: 1, name: "John Doe", summary: "" },
+        { id: 2, name: "Jane Dosepth", summary: "" },
+        { id: 3, name: "Sarah Marshal", summary: "" },
+        { id: 4, name: "Hugh Bridges", summary: "" },
+        { id: 5, name: "Alana Thomas", summary: "" },
+        { id: 6, name: "Paula James", summary: "" },
+        { id: 7, name: "Steve Rogers", summary: "" },
       ],
     };
   },

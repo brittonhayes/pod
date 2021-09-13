@@ -4,22 +4,24 @@ import (
 	"os"
 	"testing"
 
-	"github.com/brittonhayes/pod/backend/internal/system"
+	"github.com/brittonhayes/pod/backend/config"
 	"github.com/brittonhayes/pod/backend/project"
 	"github.com/brittonhayes/pod/backend/store"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewProject(t *testing.T) {
-	system.Initialize()
+	config.Run()
 
 	dbName := "pod"
 
 	arg := "Example Project"
-	p := project.NewProject(arg)
+	p := project.NewProject()
+	p.With(arg, arg, arg)
 
 	t.Run("create new project", func(t *testing.T) {
 		assert.Equal(t, arg, p.Name)
+		assert.Equal(t, arg, p.Summary)
 	})
 
 	t.Run("save a project", func(t *testing.T) {
@@ -32,6 +34,14 @@ func TestNewProject(t *testing.T) {
 		var projects []project.Project
 
 		ok, err := p.Query("Name", arg[0:3], projects)
+		assert.NoError(t, err)
+		assert.True(t, ok)
+	})
+
+	t.Run("list projects", func(t *testing.T) {
+		var projects []*project.Project
+
+		ok, err := p.List(projects)
 		assert.NoError(t, err)
 		assert.True(t, ok)
 	})

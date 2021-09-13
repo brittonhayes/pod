@@ -12,3 +12,15 @@ export function MustBeOneOf(prop, value, list) {
   }
   return true;
 }
+
+/**
+ *
+ * @param {*} prop
+ * @param {string} style
+ */
+export function IsStyle(prop, style) {
+  if (prop) {
+    return `is-${style}`;
+  }
+  return "";
+}

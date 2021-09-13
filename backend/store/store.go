@@ -8,6 +8,7 @@ import (
 	"github.com/asdine/storm/v3"
 	"github.com/asdine/storm/v3/q"
 	"github.com/rs/zerolog/log"
+	"github.com/wailsapp/wails"
 )
 
 var (
@@ -20,6 +21,9 @@ var (
 
 type DB struct {
 	db *storm.DB
+
+	Runtime *wails.Runtime
+	Logger  *wails.CustomLogger
 }
 
 type Store interface {
@@ -27,6 +31,15 @@ type Store interface {
 	Get(string, interface{}, interface{}) error
 	Delete(interface{}) error
 	Query(string, string, interface{}) error
+}
+
+// WailsInit performs setup when Wails is ready.
+func (s *DB) WailsInit(runtime *wails.Runtime) error {
+	s.Runtime = runtime
+	s.Logger = s.Runtime.Log.New("Store")
+	s.Logger.Info("Store initialized...")
+
+	return nil
 }
 
 func Path(name string) string {
@@ -80,6 +93,10 @@ func (s *DB) Query(field, value string, to interface{}) error {
 	regex := "^" + value
 
 	return s.db.Select(q.Re(field, regex)).Find(to)
+}
+
+func (s *DB) List(to interface{}) error {
+	return s.db.All(to)
 }
 
 func (s *DB) Get(fieldKey string, fieldValue interface{}, to interface{}) error {

@@ -38,7 +38,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: "light",
+      default: "white",
       validator: (value) => {
         return MustBeOneOf("color", value, validColors);
       },

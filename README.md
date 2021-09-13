@@ -10,7 +10,7 @@
 
 ## Installation
 
-Check out the releases for the latest OSX installers and Linux executables.
+Check out the [releases](https://github.com/brittonhayes/pod/releases) for the latest OSX installers and Linux executables.
 
 ## Development
 

@@ -6,26 +6,7 @@
         :key="index"
         class="column is-one-third"
       >
-        <div :class="[classes.card, bgColor]">
-          <div class="card-content">
-            <h3 :class="[classes.cardHeader, textColor]">{{ item.title }}</h3>
-            <div :class="[classes.cardContent, textColor]">
-              <div class="buttons">
-                <b-button icon-left="folder" :type="fgColor" size="is-small" />
-                <b-button
-                  icon-left="headphones"
-                  :type="fgColor"
-                  size="is-small"
-                />
-                <b-button
-                  icon-right="pencil-alt"
-                  :type="fgColor"
-                  size="is-small"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <card :title="item.name" />
       </div>
     </div>
     <section class="section">
@@ -42,7 +23,9 @@
 
 <script>
 import Color from "@/mixins/Color.js";
+import Card from "./Card.vue";
 export default {
+  components: { Card },
   name: "Cards",
   mixins: [Color],
   data() {
@@ -65,11 +48,15 @@ export default {
   props: {
     current: {
       type: Number,
-      default: 1,
+      default: () => {
+        return 1;
+      },
     },
     perPage: {
       type: Number,
-      default: 6,
+      default: () => {
+        return 6;
+      },
     },
     items: {
       type: Array,
