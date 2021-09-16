@@ -42,6 +42,8 @@ jobs:
       - name: Build deps
         run: |
           export PATH=${PATH}:`go env GOPATH`/bin
+          go env
+
           mkdir -p ~/.wails
           cp wails.json ~/.wails/
           export LOG_LEVEL=debug
