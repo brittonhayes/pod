@@ -1,6 +1,7 @@
 # Pod 🌱
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/brittonhayes/pod.svg)](https://pkg.go.dev/github.com/brittonhayes/pod)
+[![Test](https://github.com/brittonhayes/pod/actions/workflows/test.yml/badge.svg)](https://github.com/brittonhayes/pod/actions/workflows/test.yml)
 
 > Productivity application for audio professionals
 
