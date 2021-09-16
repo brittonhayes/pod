@@ -44,8 +44,9 @@ export default {
       window.backend.Storage.SaveProject(p)
         .then((res) => {
           console.debug(res);
+          this.$parent.close();
           this.$buefy.snackbar.open({
-            message: `Submitted ${this.project.name}`,
+            message: `Submitted ${this.name}`,
             type: "is-success",
           });
         })
