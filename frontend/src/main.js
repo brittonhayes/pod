@@ -37,6 +37,9 @@ import {
   faFolder,
   faPencilAlt,
   faPlus,
+  faRedo,
+  faReply,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -69,7 +72,10 @@ library.add(
   faHeadphones,
   faFolder,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faReply,
+  faRedo,
+  faSearch
 );
 
 Vue.component("vue-fontawesome", FontAwesomeIcon);

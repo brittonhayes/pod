@@ -43,18 +43,5 @@ export default {
       type: String,
     },
   },
-  computed: {
-    total() {
-      return this.items.length;
-    },
-    paginatedItems() {
-      let page_number = this.current - 1;
-
-      return this.items.slice(
-        page_number * this.perPage,
-        (page_number + 1) * this.perPage
-      );
-    },
-  },
 };
 </script>
