@@ -19,4 +19,4 @@ declare global {
     backend: Backend;
   }
 }
-export { Window, Backend, Storage };
+export {};
