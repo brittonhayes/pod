@@ -2,7 +2,6 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import * as Wails from "@wailsapp/runtime";
 import Vue from "vue";
-import "buefy/dist/buefy.css";
 import Buefy from "buefy";
 
 import FontAwesomeIcon from "./icons";

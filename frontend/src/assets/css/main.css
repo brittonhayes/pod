@@ -7,17 +7,6 @@
   margin-top: 60px;
 }
 
-html {
-  height: 100%;
-  overflow: hidden;
-  background-color: #131313;
-  background-size: 20px 20px;
-}
-
-.logo {
-  width: 16em;
-}
-
 /* roboto-regular - latin */
 @font-face {
   font-family: "Roboto";

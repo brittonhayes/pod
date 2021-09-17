@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .margin-body {
   margin-top: 20px;
   margin-bottom: 20px;

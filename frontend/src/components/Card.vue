@@ -1,8 +1,8 @@
 <template>
-  <div :class="[classes.card, bgColor]">
+  <div :class="[classes.card, CardColor]">
     <div class="card-content">
-      <h3 :class="[classes.cardHeader, textColor]">{{ title }}</h3>
-      <div :class="[classes.cardContent, textColor]">
+      <h3 :class="[classes.cardHeader, CardTextColor]">{{ title }}</h3>
+      <div :class="[classes.cardContent, CardTextColor]">
         {{ body }}
         <slot />
       </div>
@@ -39,9 +39,11 @@ export default Vue.extend({
   props: {
     title: {
       type: String,
+      required: false,
     },
     body: {
       type: String,
+      required: false,
     },
     color: {
       type: String,
@@ -52,10 +54,10 @@ export default Vue.extend({
     },
   },
   computed: {
-    BannerColor: function() {
+    CardColor: function() {
       return BackgroundColor(this.color as Color);
     },
-    BannerTextColor: function() {
+    CardTextColor: function() {
       return TextColor(this.color as Color);
     },
   },

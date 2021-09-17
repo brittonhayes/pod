@@ -1,13 +1,22 @@
 <template>
   <section :class="[classes.section, BannerColor]">
-    <div class="hero-body">
-      <h1 :class="[classes.header, BannerTextColor]">
-        {{ title }}
-      </h1>
-      <h2 :class="[classes.subheader, BannerTextColor]">
-        {{ subtitle }}
-      </h2>
-    </div>
+    <nav class="level pr-3">
+      <div class="level-left">
+        <div class="hero-body">
+          <h1 :class="[classes.header, BannerTextColor]">
+            {{ title }}
+          </h1>
+          <h2 :class="[classes.subheader, BannerTextColor]">
+            {{ subtitle }}
+          </h2>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <slot />
+        </div>
+      </div>
+    </nav>
   </section>
 </template>
 
