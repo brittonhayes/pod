@@ -10,11 +10,12 @@
   </div>
 </template>
 
-<script>
-import Color from "@/mixins/Color.js";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import { MustBeOneOf } from "../lib/validate";
+import { Color, BackgroundColor, TextColor, Palette } from "../mixins/Color";
+export default Vue.extend({
   name: "Card",
-  mixins: [Color],
   data() {
     return {
       classes: {
@@ -42,6 +43,21 @@ export default {
     body: {
       type: String,
     },
+    color: {
+      type: String,
+      default: Color.White,
+      validator: (value: Color) => {
+        return MustBeOneOf("color", value, Palette);
+      },
+    },
   },
-};
+  computed: {
+    BannerColor: function() {
+      return BackgroundColor(this.color as Color);
+    },
+    BannerTextColor: function() {
+      return TextColor(this.color as Color);
+    },
+  },
+});
 </script>

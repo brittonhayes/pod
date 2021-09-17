@@ -2,8 +2,9 @@
   <b-table :data="data" :columns="columns"></b-table>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
   data() {
     return {
       data: [
@@ -78,5 +79,5 @@ export default {
       ],
     };
   },
-};
+});
 </script>

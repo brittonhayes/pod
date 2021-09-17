@@ -47,13 +47,14 @@
   </div>
 </template>
 
-<script>
-import Page from "@/mixins/Page.js";
-// import Cards from "@/components/Cards.vue";
-import Banner from "@/components/Banner.vue";
-import ProjectForm from "@/components/ProjectForm.vue";
+<script lang="ts">
+import Vue from "vue";
+import Page from "../mixins/Page";
+// import Cards from "../components/Cards.vue";
+import Banner from "../components/Banner.vue";
+import ProjectForm from "../components/ProjectForm.vue";
 
-export default {
+export default Vue.extend({
   mixins: [Page],
   components: {
     Banner,
@@ -79,12 +80,13 @@ export default {
   },
   methods: {
     LoadProjects: function() {
+      //@ts-ignore
       window.backend.Storage.ListProjects()
-        .then((res) => {
+        .then((res: any) => {
           this.projects = res;
           return res;
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           console.error(err);
           return [{}];
         });
@@ -100,5 +102,5 @@ export default {
       };
     },
   },
-};
+});
 </script>

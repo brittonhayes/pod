@@ -14,9 +14,9 @@
   </div>
 </template>
 
-<script>
-import { IsStyle } from "@/lib/validate.js";
-export default {
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
   name: "Tile",
   data() {
     return {
@@ -26,32 +26,6 @@ export default {
         },
       },
     };
-  },
-  computed: {
-    hasMargins: function() {
-      if (this.margin > 0) {
-        return `m-${this.margin}`;
-      }
-      return 0;
-    },
-    isNotification: function() {
-      if (this.notification) {
-        return "notification";
-      }
-      return "";
-    },
-    isAncestor: function() {
-      return IsStyle(this.ancestor, "ancestor");
-    },
-    isParent: function() {
-      return IsStyle(this.parent, "parent");
-    },
-    isVertical: function() {
-      return IsStyle(this.vertical, "vertical");
-    },
-    isChild: function() {
-      return IsStyle(this.child, "child");
-    },
   },
   props: {
     title: {
@@ -78,5 +52,39 @@ export default {
       type: Boolean,
     },
   },
-};
+  computed: {
+    hasMargins: function() {
+      if (this.margin > 0) {
+        return `m-${this.margin}`;
+      }
+      return 0;
+    },
+    isNotification: function() {
+      if (this.notification) {
+        return "notification";
+      }
+      return "";
+    },
+    isAncestor: function() {
+      if (this.ancestor) {
+        return "is-ancestor";
+      }
+    },
+    isParent: function() {
+      if (this.parent) {
+        return "is-parent";
+      }
+    },
+    isVertical: function() {
+      if (this.vertical) {
+        return "is-vertical";
+      }
+    },
+    isChild: function() {
+      if (this.child) {
+        return "is-child";
+      }
+    },
+  },
+});
 </script>

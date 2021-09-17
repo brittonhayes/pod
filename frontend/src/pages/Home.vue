@@ -35,12 +35,14 @@
   </div>
 </template>
 
-<script>
-import Page from "@/mixins/Page.js";
-import Banner from "@/components/Banner.vue";
-import Card from "@/components/Card.vue";
-import Feed from "@/components/Feed.vue";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import Page from "../mixins/Page";
+import Banner from "../components/Banner.vue";
+import Card from "../components/Card.vue";
+import Feed from "../components/Feed.vue";
+export default Vue.extend({
+  name: "Home",
   mixins: [Page],
   components: {
     Banner,
@@ -52,5 +54,5 @@ export default {
       media: 3,
     };
   },
-};
+});
 </script>
