@@ -12,7 +12,7 @@
       </div>
     </banner>
     <section>
-      <project-table class="px-4"></project-table>
+      <project-table :projects="projects" class="px-4"></project-table>
       <b-modal v-model="isOpen" has-modal-card :width="1500">
         <project-form v-bind="project"></project-form>
       </b-modal>

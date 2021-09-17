@@ -6,24 +6,15 @@ if (process.env.NODE_ENV == "production") {
       filename: "[name].css",
       chunkFilename: "[name].css",
     },
+    loaderOptions: {
+      sass: {
+        additionalData: `@import "./src/assets/css/buefy.scss";`,
+      },
+    },
   };
 }
 
 module.exports = {
-  configureWebpack: {
-    output: {
-      filename: "[name].js",
-    },
-    optimization: {
-      splitChunks: false,
-    },
-    resolve: {
-      alias: {
-        vue$: "vue/dist/vue.esm.js",
-        "@": "src",
-      },
-    },
-  },
   chainWebpack: (config) => {
     let limit = 9999999999999999;
     config.module
@@ -41,8 +32,43 @@ module.exports = {
         limit: limit,
       });
   },
-  css: cssConfig,
+  configureWebpack: {
+    output: {
+      filename: "[name].js",
+    },
+    optimization: {
+      splitChunks: false,
+    },
+    resolve: {
+      alias: {
+        vue$: "vue/dist/vue.esm.js",
+        "@": "src",
+      },
+    },
+  },
+  css: {
+    extract: {
+      filename: "[name].css",
+      chunkFilename: "[name].css",
+    },
+    loaderOptions: {
+      sass: {
+        additionalData: `@import "./src/assets/css/buefy.scss";`,
+      },
+    },
+  },
   devServer: {
+    cssConfig: {
+      extract: {
+        filename: "[name].css",
+        chunkFilename: "[name].css",
+      },
+      loaderOptions: {
+        sass: {
+          additionalData: `@import "./src/assets/css/buefy.scss";`,
+        },
+      },
+    },
     disableHostCheck: true,
   },
 };

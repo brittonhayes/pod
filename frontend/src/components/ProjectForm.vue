@@ -11,7 +11,7 @@
         <b-input v-model="client" maxlength="30" />
       </b-field>
       <b-field label="Summary">
-        <b-input v-model="summary" type="textarea" maxlength="30" />
+        <b-input v-model="summary" type="textarea" maxlength="250" />
       </b-field>
     </section>
     <footer class="modal-card-foot">

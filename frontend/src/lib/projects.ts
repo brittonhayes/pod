@@ -25,13 +25,14 @@ export const DefaultProjects: Array<Project> = [
   },
 ];
 
-export const ProjectSort: Array<string> = ["created_at", "desc"];
+export const ProjectSort: Array<string> = ["created_at", "asc"];
 
 export const ProjectColumns: Array<Column> = [
   {
     field: "id",
     label: "ID",
     numeric: true,
+    sortable: true,
   },
   {
     field: "name",

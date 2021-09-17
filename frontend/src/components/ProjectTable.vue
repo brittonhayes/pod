@@ -1,13 +1,15 @@
 <template>
   <section class="table-container">
     <b-table
-      :data="data"
+      :data="projects"
       :columns="columns"
       :default-sort="sort"
-      scrollable
-      hoverable
       paginated
+      detailed
     >
+      <template #detail="props">
+        <small>{{ props.row.summary }}</small>
+      </template>
       <template #empty>
         <div class="notification has-text-centered">No projects</div>
       </template>
@@ -17,15 +19,20 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { DefaultProjects, ProjectColumns, ProjectSort } from "../lib/projects";
+import { ProjectColumns, ProjectSort } from "../lib/projects";
 
 export default Vue.extend({
   data() {
     return {
-      data: DefaultProjects,
       columns: ProjectColumns,
       sort: ProjectSort,
     };
+  },
+  props: {
+    projects: {
+      type: Array,
+      required: true,
+    },
   },
 });
 </script>
