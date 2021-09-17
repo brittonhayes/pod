@@ -1,10 +1,10 @@
 import VueRouter from "vue-router";
 
-import Home from "@/pages/Home.vue";
-import Clients from "@/pages/Clients.vue";
-import Projects from "@/pages/Projects.vue";
-import Clips from "@/pages/Clips.vue";
-import Settings from "@/pages/Settings.vue";
+import Home from "../pages/Home.vue";
+import Clients from "../pages/Clients.vue";
+import Projects from "../pages/Projects.vue";
+import Clips from "../pages/Clips.vue";
+import Settings from "../pages/Settings.vue";
 
 const routes = [
   {

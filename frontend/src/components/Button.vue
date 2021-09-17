@@ -9,10 +9,12 @@
   >
 </template>
 
-<script>
-import Color from "@/mixins/Color.js";
-import { Button } from "buefy/dist/components/button";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import { MustBeOneOf } from "../lib/validate";
+import { Color, Palette, IsColor } from "../mixins/Color";
+export default Vue.extend({
+  name: "Button",
   data() {
     return {
       classes: {
@@ -23,8 +25,6 @@ export default {
       },
     };
   },
-  components: { Button },
-  mixins: [Color],
   methods: {
     action() {
       this.$emit("action");
@@ -42,6 +42,18 @@ export default {
       type: String,
       default: "",
     },
+    color: {
+      type: String,
+      default: Color.White,
+      validator: (value: Color) => {
+        return MustBeOneOf("color", value, Palette);
+      },
+    },
   },
-};
+  computed: {
+    ButtonColor: function() {
+      return IsColor(this.color as Color);
+    },
+  },
+});
 </script>

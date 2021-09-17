@@ -23,25 +23,21 @@
   </section>
 </template>
 
-<script>
-import NavButton from "@/components/NavButton.vue";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import NavButton from "./NavButton.vue";
+
+export default Vue.extend({
   components: { NavButton },
-  data() {
-    return {
-      routes: this.$router.options.routes,
-    };
-  },
-  compontents: {
-    NavButton,
-  },
   computed: {
+    routes: function() {
+      return this.$router.options.routes;
+    },
     activeRoute: function() {
-      console.log(this.$store.getters.getActiveRoute);
       return this.$store.getters.getActiveRoute;
     },
   },
-};
+});
 </script>
 
 <style>

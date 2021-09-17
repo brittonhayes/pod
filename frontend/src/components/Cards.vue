@@ -21,13 +21,13 @@
   </div>
 </template>
 
-<script>
-import Color from "@/mixins/Color.js";
-import Card from "./Card.vue";
-export default {
-  components: { Card },
+<script lang="ts">
+import Vue from "vue";
+import { Card } from "../types/cards";
+import CardComponent from "./Card.vue";
+export default Vue.extend({
   name: "Cards",
-  mixins: [Color],
+  components: { card: CardComponent },
   data() {
     return {
       classes: {
@@ -70,17 +70,18 @@ export default {
     },
   },
   computed: {
-    total() {
-      return this.items.length;
+    total(): number {
+      let list = this.items as Array<Card>;
+      return list.length;
     },
-    paginatedItems() {
+    paginatedItems(): Array<Card> {
       let page_number = this.current - 1;
 
       return this.items.slice(
         page_number * this.perPage,
         (page_number + 1) * this.perPage
-      );
+      ) as Array<Card>;
     },
   },
-};
+});
 </script>

@@ -5,11 +5,12 @@
   </div>
 </template>
 
-<script>
-import Page from "@/mixins/Page.js";
-import Banner from "@/components/Banner.vue";
-import Cards from "@/components/Cards.vue";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import Banner from "../components/Banner.vue";
+import Cards from "../components/Cards.vue";
+import Page from "../mixins/Page";
+export default Vue.extend({
   mixins: [Page],
   components: {
     Banner,
@@ -28,5 +29,5 @@ export default {
       ],
     };
   },
-};
+});
 </script>

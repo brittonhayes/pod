@@ -5,10 +5,10 @@
   </div>
 </template>
 
-<script>
-import Page from "@/mixins/Page.js";
-import Banner from "@/components/Banner.vue";
-import Cards from "@/components/Cards.vue";
+<script lang="ts">
+import Page from "../mixins/Page";
+import Banner from "../components/Banner.vue";
+import Cards from "../components/Cards.vue";
 export default {
   name: "Clips",
   mixins: [Page],

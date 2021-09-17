@@ -22,7 +22,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: {
     name: {
       type: String,
@@ -41,10 +42,11 @@ export default {
         summary: this.summary,
         client: this.client,
       });
+
+      //@ts-ignore
       window.backend.Storage.SaveProject(p)
         .then((res) => {
           console.debug(res);
-          this.$parent.close();
           this.$buefy.snackbar.open({
             message: `Submitted ${this.name}`,
             type: "is-success",
@@ -57,9 +59,9 @@ export default {
           });
           console.error(err);
         });
+      this.$parent.close();
       this.LoadProjects();
-      this.isOpen = false;
     },
   },
-};
+});
 </script>
