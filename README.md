@@ -51,7 +51,7 @@ cd pod
 go mod download && cd frontend && npm install && cd ..
 ```
 
-### Compile from source
+### Compile pod from source
 
 ```shell
 wails build
