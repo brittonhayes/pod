@@ -42,7 +42,7 @@ Check out the [releases](https://github.com/brittonhayes/pod/releases) for the l
 
 ```shell
 # Clone the repositoru
-git repo clone brittonhayes/pod
+gh repo clone brittonhayes/pod
 
 # Navigate to the repository
 cd pod

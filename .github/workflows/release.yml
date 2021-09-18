@@ -2,8 +2,10 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
+  repository_dispatch:
+    types: [semantic-release]
 
 jobs:
   package:
@@ -89,53 +91,38 @@ jobs:
     runs-on: ubuntu-latest
     needs: package
     steps:
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release
+      - uses: go-semantic-release/action@v1
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body: |
-            Pod Release 🌱 ${{ github.ref }}
-
-            ${{steps.github_release.outputs.changelog}}
-
-      - name: Download macOS package
-        uses: actions/download-artifact@v1
-        with:
-          name: pod-macOS
-
-      - name: Upload macOS package to release
-        id: upload-macOS-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pod-macOS/pod.zip
-          asset_name: pod_${{ github.ref }}_macOS.zip
-          asset_content_type: application/octet-stream
-
-      - name: Download linux package
-        uses: actions/download-artifact@v1
-        with:
-          name: pod-linux
-
-      - name: Upload Linux package to release
-        id: upload-linux-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pod-linux/pod.tar.gz
-          asset_name: pod_${{ github.ref }}_linux_x86_64.tar.gz
-          asset_content_type: application/octet-stream
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          changelog-file: true
+          changelog-generator-opt: "emojis=true"
+          allow-initial-development-versions: true
+      # - name: Download macOS package
+      #   uses: actions/download-artifact@v1
+      #   with:
+      #     name: pod-macOS
+      # - name: Upload macOS package to release
+      #   id: upload-macOS-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./pod-macOS/pod.zip
+      #     asset_name: pod_${{ github.ref }}_macOS.zip
+      #     asset_content_type: application/octet-stream
+      # - name: Download linux package
+      #   uses: actions/download-artifact@v1
+      #   with:
+      #     name: pod-linux
+      # - name: Upload Linux package to release
+      #   id: upload-linux-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./pod-linux/pod.tar.gz
+      #     asset_name: pod_${{ github.ref }}_linux_x86_64.tar.gz
+      #     asset_content_type: application/octet-stream
