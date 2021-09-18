@@ -1,8 +1,9 @@
 name: Package
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - "*"
 
 jobs:
   package:
@@ -83,6 +84,7 @@ jobs:
           name: pod-linux-appimage
           path: pod-${{ env.VERSION }}-x86_64.AppImage
         if: matrix.os == 'ubuntu-latest'
+
   upload:
     runs-on: ubuntu-latest
     steps:
@@ -105,7 +107,7 @@ jobs:
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
           asset_path: ./pod-macOS/pod.zip
-          asset_name: "pod_${{steps.create_release.outputs.version}}_macOS.zip"
+          asset_name: "pod_${{steps.get_release.outputs.tag_name}}_macOS.zip"
           asset_content_type: application/octet-stream
 
       - name: Download linux package
@@ -121,5 +123,5 @@ jobs:
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
           asset_path: ./pod-linux/pod.tar.gz
-          asset_name: "pod_${{steps.create_release.outputs.version}}_linux_x86_64.tar.gz"
+          asset_name: "pod_${{steps.get_release.outputs.tag_name}}_linux_x86_64.tar.gz"
           asset_content_type: application/octet-stream
