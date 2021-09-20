@@ -1,15 +1,13 @@
 package project
 
 import (
-	"errors"
-	"fmt"
 	"time"
 
 	"github.com/brittonhayes/pod/backend/store"
 )
 
 const (
-	DBName = "pod"
+	dbName = "project"
 )
 
 type Project struct {
@@ -32,10 +30,9 @@ func (p *Project) With(name, summary, client string) *Project {
 }
 
 func (p *Project) Save() (bool, error) {
-	db, err := store.NewDB(DBName)
+	db, err := store.NewDB(dbName)
 	if err != nil {
-		e := fmt.Sprintf("%s - %s", err.Error(), ErrSave.Error())
-		return false, errors.New(e)
+		return false, err
 	}
 	defer db.Close()
 
@@ -49,10 +46,9 @@ func (p *Project) Save() (bool, error) {
 }
 
 func (p *Project) Delete() (bool, error) {
-	db, err := store.NewDB(DBName)
+	db, err := store.NewDB(dbName)
 	if err != nil {
-		e := fmt.Sprintf("%s - %s", err.Error(), ErrSave.Error())
-		return false, errors.New(e)
+		return false, err
 	}
 	defer db.Close()
 
@@ -65,7 +61,7 @@ func (p *Project) Delete() (bool, error) {
 }
 
 func (p *Project) Query(field, value string, to []Project) (bool, error) {
-	db, err := store.NewDB(DBName)
+	db, err := store.NewDB(dbName)
 	if err != nil {
 		return false, err
 	}
@@ -79,8 +75,8 @@ func (p *Project) Query(field, value string, to []Project) (bool, error) {
 	return true, nil
 }
 
-func (p *Project) List(to []*Project) (bool, error) {
-	db, err := store.NewDB(DBName)
+func (p *Project) List(to []Project) (bool, error) {
+	db, err := store.NewDB(dbName)
 	if err != nil {
 		return false, err
 	}

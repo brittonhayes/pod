@@ -5,13 +5,13 @@
     </div>
     <section class="modal-card-body">
       <b-field label="Name">
-        <b-input v-model="name" />
+        <b-input v-model="internalName" />
       </b-field>
       <b-field label="Client">
-        <b-input v-model="client" maxlength="30" />
+        <b-input v-model="internalClient" maxlength="30" />
       </b-field>
       <b-field label="Summary">
-        <b-input v-model="summary" type="textarea" maxlength="250" />
+        <b-input v-model="internalSummary" type="textarea" maxlength="250" />
       </b-field>
     </section>
     <footer class="modal-card-foot">
@@ -35,20 +35,25 @@ export default Vue.extend({
       type: String,
     },
   },
+  data() {
+    return {
+      internalName: this.name,
+      internalSummary: this.summary,
+      internalClient: this.client,
+    };
+  },
   methods: {
     SubmitProject: function() {
-      let p = JSON.stringify({
-        name: this.name,
-        summary: this.summary,
-        client: this.client,
-      });
+      const project = {
+        Name: this.internalName,
+        Summary: this.internalSummary,
+        Client: this.internalClient,
+      };
 
-      //@ts-ignore
-      window.backend.Storage.SaveProject(p)
-        .then((res) => {
-          console.debug(res);
+      window.backend.Storage.SaveProject(project)
+        .then(() => {
           this.$buefy.snackbar.open({
-            message: `Submitted ${this.name}`,
+            message: `Submitted ${this.internalName}`,
             type: "is-success",
           });
         })
@@ -59,8 +64,8 @@ export default Vue.extend({
           });
           console.error(err);
         });
+
       this.$parent.close();
-      this.LoadProjects();
     },
   },
 });

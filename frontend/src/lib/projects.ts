@@ -1,7 +1,7 @@
 import { Column } from "./table";
 
 export interface Project {
-  id: number;
+  id?: number;
   name: string;
   summary?: string;
   client?: string;
