@@ -3,7 +3,6 @@ package tray
 import (
 	"fmt"
 
-	"github.com/brittonhayes/pod/backend/client"
 	"github.com/brittonhayes/pod/backend/project"
 	"github.com/gen2brain/beeep"
 	"github.com/getlantern/systray"
@@ -50,7 +49,7 @@ func ViewProjects(m *systray.MenuItem) {
 func ViewClients(m *systray.MenuItem) {
 	<-m.ClickedCh
 	log.Info().Msg("clicked view clients")
-	path := client.Folder()
+	path := project.ClientFolder()
 	err := open.Run(path)
 	if err != nil {
 		log.Error().Err(err).Send()

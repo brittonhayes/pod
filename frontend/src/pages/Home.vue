@@ -41,7 +41,6 @@ import Page from "../mixins/Page";
 import Banner from "../components/Banner.vue";
 import Card from "../components/Card.vue";
 import Feed from "../components/Feed.vue";
-
 export default Vue.extend({
   name: "Home",
   mixins: [Page],

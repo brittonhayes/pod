@@ -15,6 +15,23 @@ if (process.env.NODE_ENV == "production") {
 }
 
 module.exports = {
+  chainWebpack: (config) => {
+    let limit = 9999999999999999;
+    config.module
+      .rule("images")
+      .test(/\.(png|gif|jpg)(\?.*)?$/i)
+      .use("url-loader")
+      .loader("url-loader")
+      .tap((options) => Object.assign(options, { limit: limit }));
+    config.module
+      .rule("fonts")
+      .test(/\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/i)
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        limit: limit,
+      });
+  },
   configureWebpack: {
     output: {
       filename: "[name].js",
@@ -41,23 +58,17 @@ module.exports = {
     },
   },
   devServer: {
+    cssConfig: {
+      extract: {
+        filename: "[name].css",
+        chunkFilename: "[name].css",
+      },
+      loaderOptions: {
+        sass: {
+          additionalData: `@import "./src/assets/css/buefy.scss";`,
+        },
+      },
+    },
     disableHostCheck: true,
-  },
-  chainWebpack: (config) => {
-    let limit = 9999999999999999;
-    config.module
-      .rule("images")
-      .test(/\.(png|gif|jpg)(\?.*)?$/i)
-      .use("url-loader")
-      .loader("url-loader")
-      .tap((options) => Object.assign(options, { limit: limit }));
-    config.module
-      .rule("fonts")
-      .test(/\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/i)
-      .use("url-loader")
-      .loader("url-loader")
-      .options({
-        limit: limit,
-      });
   },
 };

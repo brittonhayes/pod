@@ -2,7 +2,6 @@ package store
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -49,7 +48,7 @@ func Path(name string) string {
 		log.Fatal().Err(err).Send()
 	}
 
-	return filepath.Join(config, "pod", name+".db")
+	return filepath.Join(config, name, name+".db")
 }
 
 func NewDB(name string) (*DB, error) {
@@ -57,19 +56,6 @@ func NewDB(name string) (*DB, error) {
 
 	path := Path(name)
 	db, err := storm.Open(path)
-	if err != nil {
-		return defaultDB, err
-	}
-
-	return &DB{
-		db: db,
-	}, nil
-}
-
-func NewCustomDB(name string, folder string) (*DB, error) {
-	defaultDB := &DB{}
-
-	db, err := storm.Open(filepath.Join(folder, fmt.Sprintf("%s.db", name)))
 	if err != nil {
 		return defaultDB, err
 	}

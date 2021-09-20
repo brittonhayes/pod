@@ -2,6 +2,8 @@ package store_test
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/brittonhayes/pod/backend/store"
@@ -14,12 +16,12 @@ type Example struct {
 }
 
 func TestDB(t *testing.T) {
-	dbName := "projects"
-	db, err := store.NewCustomDB(dbName, t.TempDir())
+	dbName := "pod"
+
+	db, err := store.NewDB(dbName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
 	defaultField := "Name"
 	defaultName := "test_name"
@@ -36,21 +38,9 @@ func TestDB(t *testing.T) {
 		to := Example{}
 
 		err := db.Get(defaultField, defaultName, &to)
-		if assert.NoError(t, err) {
-			assert.Equal(t, &arg, &to)
-		}
-	})
+		assert.NoError(t, err)
 
-	t.Run("test store list", func(t *testing.T) {
-		to := []Example{}
-		want := defaultName
-		err := db.List(&to)
-
-		if assert.NoError(t, err) {
-			assert.Equal(t, want, to[0].Name)
-		}
-
-		t.Logf("store list: %#v", &to)
+		assert.Equal(t, &arg, &to)
 	})
 
 	t.Run("test store query", func(t *testing.T) {
@@ -63,13 +53,18 @@ func TestDB(t *testing.T) {
 		}
 
 		err := db.Query(defaultField, defaultName[0:3], &to)
-		if assert.NoError(t, err) {
-			assert.Equal(t, expect, to)
-		}
+		assert.NoError(t, err)
+
+		assert.Equal(t, expect, to)
 	})
 
 	t.Run("test store delete", func(t *testing.T) {
 		err := db.Delete(&arg)
 		assert.NoError(t, err)
+	})
+
+	t.Cleanup(func() {
+		path := filepath.Dir(store.Path(dbName))
+		os.Remove(path)
 	})
 }

@@ -3,8 +3,8 @@ package main
 import (
 	_ "embed"
 
-	"github.com/brittonhayes/pod/backend/bind"
 	"github.com/brittonhayes/pod/backend/config"
+	"github.com/brittonhayes/pod/backend/project"
 	"github.com/rs/zerolog/log"
 	"github.com/wailsapp/wails"
 )
@@ -34,8 +34,7 @@ func main() {
 	cfg := config.NewConfig()
 
 	app.Bind(cfg)
-	app.Bind(&bind.Storage{})
-	app.Bind(&bind.ProjectState{})
+	app.Bind(&project.Storage{})
 
 	err = app.Run()
 	if err != nil {

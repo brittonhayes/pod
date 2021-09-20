@@ -4,15 +4,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/brittonhayes/pod/backend/client"
 	"github.com/brittonhayes/pod/backend/project"
 	"github.com/brittonhayes/pod/backend/store"
 	"github.com/wailsapp/wails"
 )
 
-const (
-	dbName = "pod"
-)
+const dbName = "pod"
 
 type Config struct {
 	Runtime *wails.Runtime
@@ -30,7 +27,7 @@ func Run() error {
 		return err
 	}
 
-	clientPath := client.Folder()
+	clientPath := project.ClientFolder()
 	err = os.MkdirAll(clientPath, os.ModePerm)
 	if err != nil {
 		return err

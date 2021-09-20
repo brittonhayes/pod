@@ -1,6 +1,6 @@
 # https://taskfile.dev
 
-version: "3"
+version: '3'
 
 tasks:
   default:
@@ -11,6 +11,7 @@ tasks:
   test:
     desc: Run test suite
     cmds:
+      - task: test:ui
       - task: test:backend
 
   test:ui:
@@ -20,5 +21,5 @@ tasks:
 
   test:backend:
     cmds:
-      - go test -v -race -covermode=atomic -coverprofile=coverage.out ./...
+      - go test -race -covermode=atomic -coverprofile=coverage.out ./...
       - go tool cover -func coverage.out

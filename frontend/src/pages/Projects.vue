@@ -47,11 +47,10 @@ export default Vue.extend({
   },
   methods: {
     LoadProjects: function() {
-      const that = this;
       //@ts-ignore
       window.backend.Storage.ListProjects()
         .then((res: any) => {
-          that.projects = res;
+          this.projects = res;
           return res;
         })
         .catch((err: Error) => {

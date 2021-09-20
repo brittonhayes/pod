@@ -8,16 +8,10 @@ interface Storage {
   SaveClient(...args: any[]): Promise<any>;
   SaveProject(...args: any[]): Promise<any>;
 }
-interface ProjectState {
-  Set(...args: any[]): Promise<any>;
-  Update(...args: any[]): Promise<any>;
-  WailsInit(...args: any[]): Promise<any>;
-}
 
 interface Backend {
   Config: Config;
   Storage: Storage;
-  ProjectState: ProjectState;
 }
 
 declare global {
