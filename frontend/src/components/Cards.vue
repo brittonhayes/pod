@@ -15,7 +15,6 @@
         :current.sync="current"
         :per-page="perPage"
         color="light"
-        simple
       ></b-pagination>
     </section>
   </div>
@@ -28,23 +27,6 @@ import CardComponent from "@/components/Card.vue";
 export default Vue.extend({
   name: "Cards",
   components: { card: CardComponent },
-  data() {
-    return {
-      classes: {
-        card: {
-          card: true,
-        },
-        cardHeader: {
-          "is-size-6": true,
-          "pb-5": true,
-        },
-        cardContent: {
-          content: true,
-          "is-size-7": true,
-        },
-      },
-    };
-  },
   props: {
     current: {
       type: Number,

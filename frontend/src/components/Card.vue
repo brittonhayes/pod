@@ -3,7 +3,9 @@
     <div class="card-content">
       <h3 :class="[classes.cardHeader, CardTextColor]">{{ title }}</h3>
       <div :class="[classes.cardContent, CardTextColor]">
-        {{ body }}
+        <p>
+          {{ body }}
+        </p>
         <slot />
       </div>
     </div>
@@ -22,7 +24,7 @@ export default Vue.extend({
         card: {
           card: true,
           column: true,
-          "m-2": true,
+          "p-2": true,
         },
         cardHeader: {
           "has-text-weight-bold": true,
@@ -31,7 +33,6 @@ export default Vue.extend({
         },
         cardContent: {
           content: true,
-          "is-size-7": true,
         },
       },
     };
