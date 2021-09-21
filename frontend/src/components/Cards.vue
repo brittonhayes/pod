@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Card } from "../types/cards";
-import CardComponent from "./Card.vue";
+import { Card } from "@/types/cards";
+import CardComponent from "@/components/Card.vue";
 export default Vue.extend({
   name: "Cards",
   components: { card: CardComponent },

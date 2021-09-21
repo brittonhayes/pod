@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { MustBeOneOf } from "../lib/validate";
-import { Color, Palette, BackgroundColor, TextColor } from "../mixins/Color";
+import { MustBeOneOf } from "@/lib/validate";
+import { Color, Palette, BackgroundColor, TextColor } from "@/mixins/Color";
 export default Vue.extend({
   name: "Banner",
   data() {

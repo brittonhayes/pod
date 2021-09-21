@@ -69,21 +69,25 @@ export default Vue.extend({
       if (this.ancestor) {
         return "is-ancestor";
       }
+      return "";
     },
     isParent: function() {
       if (this.parent) {
         return "is-parent";
       }
+      return "";
     },
     isVertical: function() {
       if (this.vertical) {
         return "is-vertical";
       }
+      return "";
     },
     isChild: function() {
       if (this.child) {
         return "is-child";
       }
+      return "";
     },
   },
 });

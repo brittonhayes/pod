@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { ProjectColumns, ProjectSort } from "../lib/projects";
+import { ProjectColumns, ProjectSort } from "@/lib/projects";
 
 export default Vue.extend({
   data() {
