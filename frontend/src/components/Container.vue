@@ -2,7 +2,7 @@
   <div class="container">
     <section class="section is-small">
       <div class="columns is-mobile is-centered">
-        <div class="column is-half">
+        <div class="column is-two-thirds">
           <slot />
         </div>
       </div>
