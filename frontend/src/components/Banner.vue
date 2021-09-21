@@ -13,7 +13,7 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <slot />
+          <slot name="buttons" />
         </div>
       </div>
     </nav>
@@ -31,7 +31,7 @@ export default Vue.extend({
       classes: {
         header: {
           title: true,
-          "is-size-4": true,
+          "is-size-3": true,
           "pb-2": true,
         },
         subheader: {
@@ -39,7 +39,7 @@ export default Vue.extend({
           "is-size-6": true,
         },
         section: {
-          "mb-3": true,
+          "mb-5": true,
           hero: true,
           "is-small": true,
         },
