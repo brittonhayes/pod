@@ -1,32 +1,31 @@
 <template>
-  <div>
+  <container>
     <Banner :title="title" :subtitle="subtitle" />
-    <Cards :items="items" color="light" />
-  </div>
+    <Table :data="items" :columns="columns" :sort="sort" />
+  </container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Container from "@/components/Container.vue";
+import Table from "@/components/Table.vue";
 import Banner from "@/components/Banner.vue";
-import Cards from "@/components/Cards.vue";
 import Page from "@/mixins/Page";
+
+import { DefaultClients, ClientSort, ClientColumns } from "@/lib/clients";
+
 export default Vue.extend({
   mixins: [Page],
   components: {
+    Container,
     Banner,
-    Cards,
+    Table,
   },
   data() {
     return {
-      items: [
-        { id: 1, name: "John Doe", summary: "" },
-        { id: 2, name: "Jane Dosepth", summary: "" },
-        { id: 3, name: "Sarah Marshal", summary: "" },
-        { id: 4, name: "Hugh Bridges", summary: "" },
-        { id: 5, name: "Alana Thomas", summary: "" },
-        { id: 6, name: "Paula James", summary: "" },
-        { id: 7, name: "Steve Rogers", summary: "" },
-      ],
+      items: DefaultClients,
+      sort: ClientSort,
+      columns: ClientColumns,
     };
   },
 });
