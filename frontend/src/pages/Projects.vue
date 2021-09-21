@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Page from "../mixins/Page";
-import Banner from "../components/Banner.vue";
-import ProjectTable from "../components/ProjectTable.vue";
-import ProjectForm from "../components/ProjectForm.vue";
+import Page from "@/mixins/Page";
+import Banner from "@/components/Banner.vue";
+import ProjectTable from "@/components/ProjectTable.vue";
+import ProjectForm from "@/components/ProjectForm.vue";
 
 export default Vue.extend({
   mixins: [Page],

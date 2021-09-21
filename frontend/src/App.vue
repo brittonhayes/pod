@@ -5,12 +5,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import Sidebar from "./components/Sidebar.vue";
-export default {
+export default Vue.extend({
   name: "app",
   components: { Sidebar },
-};
+});
 </script>
 
 <style lang="scss">

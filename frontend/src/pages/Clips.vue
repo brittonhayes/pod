@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import Page from "../mixins/Page";
-import Banner from "../components/Banner.vue";
-import Cards from "../components/Cards.vue";
+import Page from "@/mixins/Page";
+import Banner from "@/components/Banner.vue";
+import Cards from "@/components/Cards.vue";
 export default {
   name: "Clips",
   mixins: [Page],

@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import Page from "../mixins/Page";
-import Banner from "../components/Banner.vue";
+import Page from "@/mixins/Page";
+import Banner from "@/components/Banner.vue";
 export default {
   mixins: [Page],
   components: {

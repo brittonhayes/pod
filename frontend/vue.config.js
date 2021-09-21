@@ -1,3 +1,5 @@
+const path = require("path");
+
 let cssConfig = {};
 
 if (process.env.NODE_ENV == "production") {
@@ -25,8 +27,9 @@ module.exports = {
     resolve: {
       alias: {
         vue$: "vue/dist/vue.esm.js",
-        "@": "src",
+        "@": path.resolve(__dirname, "./src"),
       },
+      extensions: [".js", ".ts", ".vue"],
     },
   },
   css: {

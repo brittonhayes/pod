@@ -7,9 +7,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Banner from "../components/Banner.vue";
-import Cards from "../components/Cards.vue";
-import Page from "../mixins/Page";
+import Banner from "@/components/Banner.vue";
+import Cards from "@/components/Cards.vue";
+import Page from "@/mixins/Page";
 export default Vue.extend({
   mixins: [Page],
   components: {

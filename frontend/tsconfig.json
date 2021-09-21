@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "esnext",
+    "module": "es2015",
     "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -30,11 +33,13 @@
     ]
   },
   "include": [
+    "src/**/*",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/tests/**/*.ts",
     "src/tests/**/*.tsx",
+    "types/*.ts",
   ],
   "exclude": [
     "node_modules",
