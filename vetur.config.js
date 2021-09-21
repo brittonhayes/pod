@@ -4,7 +4,6 @@ module.exports = {
       root: "./frontend",
       package: "./package.json",
       tsconfig: "./tsconfig.json",
-      globalComponents: ["./src/components/**/*.vue"],
     },
   ],
 };
