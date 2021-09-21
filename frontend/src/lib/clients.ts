@@ -1,22 +1,63 @@
+import { Column } from "@/lib/table";
+
 export interface Client {
-  ID: number;
-  Name: string;
-  Description?: string;
-  Email?: string;
-  Phone?: string;
-  Social?: Object;
+  id: number;
+  name: string;
+  description?: string;
+  email?: string;
+  phone?: string;
+  social?: Object;
+  created_at?: string;
 }
 
 export const DefaultClients: Array<Client> = [
   {
-    ID: 1,
-    Name: "James",
-    Description: "Foo bar",
+    id: 1,
+    name: "James",
+    description: "Foo bar",
+    email: "james@example.com",
+    phone: "123-456-7890",
+    created_at: new Date().toLocaleString(),
   },
   {
-    ID: 2,
-    Name: "Sarah",
-    Description: "Foo baz",
-    Email: "sarah@example.com",
+    id: 2,
+    name: "Sarah",
+    description: "Foo baz",
+    email: "sarah@example.com",
+    phone: "123-786-7890",
+    created_at: new Date().toLocaleString(),
+  },
+];
+
+export const ClientSort: Array<string> = ["created_at", "asc"];
+
+export const ClientColumns: Array<Column> = [
+  {
+    field: "id",
+    label: "id",
+    numeric: true,
+    sortable: true,
+    visible: false,
+  },
+  {
+    field: "name",
+    label: "Client",
+    sortable: true,
+    searchable: true,
+  },
+  {
+    field: "email",
+    label: "email",
+    sortable: true,
+  },
+  {
+    field: "phone",
+    label: "Phone",
+    sortable: true,
+  },
+  {
+    field: "created_at",
+    label: "Created",
+    sortable: true,
   },
 ];
