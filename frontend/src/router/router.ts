@@ -34,7 +34,7 @@ const routes = [
     name: "clients",
     component: Clients,
     meta: {
-      title: "Clients 👥",
+      title: "Clients 📇",
       subtitle: "Customers and connections",
       icon: "address-book",
       iconSize: "is-medium",
