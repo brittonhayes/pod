@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Client } from "@/lib/clients";
-import { Project } from "@/lib/projects";
+import { Project } from "@/types/project";
+import { Client } from "@/types/client";
 
 Vue.use(Vuex);
 

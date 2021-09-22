@@ -1,4 +1,4 @@
-import { Column } from "@/lib/table";
+import { Column } from "@/types/table";
 
 export interface Client {
   id: number;

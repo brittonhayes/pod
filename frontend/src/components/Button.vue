@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { MustBeOneOf } from "@/lib/validate";
+import { MustBeOneOf } from "@/lib/validation";
 import { Color, Palette, IsColor } from "@/mixins/Color";
 export default Vue.extend({
   name: "Button",

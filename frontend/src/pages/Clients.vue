@@ -12,7 +12,7 @@ import Table from "@/components/Table.vue";
 import Banner from "@/components/Banner.vue";
 import Page from "@/mixins/Page";
 
-import { DefaultClients, ClientSort, ClientColumns } from "@/lib/clients";
+import { DefaultClients, ClientSort, ClientColumns } from "@/types/client";
 
 export default Vue.extend({
   mixins: [Page],

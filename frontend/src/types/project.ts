@@ -1,4 +1,4 @@
-import { Column } from "./table";
+import { Column } from "@/types/table";
 
 export interface Project {
   id?: number;

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { MustBeOneOf } from "@/lib/validate";
+import { MustBeOneOf } from "@/lib/validation";
 import { Color, BackgroundColor, TextColor, Palette } from "@/mixins/Color";
 export default Vue.extend({
   name: "Card",

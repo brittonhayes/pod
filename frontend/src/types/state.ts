@@ -1,4 +1,4 @@
-import { Project } from "./projects";
+import { Project } from "@/types/project";
 import runtime from "@wailsapp/runtime";
 
 export class ProjectStore {

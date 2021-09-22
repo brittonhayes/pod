@@ -1,4 +1,4 @@
-import { MustBeOneOf } from "@/lib/validate";
+import { MustBeOneOf } from "@/lib/validation";
 
 export enum Color {
   Empty = "",
