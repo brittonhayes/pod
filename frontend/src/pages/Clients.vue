@@ -19,6 +19,7 @@ export default Vue.extend({
   components: {
     Container,
     Banner,
+
     Table,
   },
   data() {

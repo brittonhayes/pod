@@ -3,6 +3,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheck,
   faCheckCircle,
+  faChevronLeft,
   faInfoCircle,
   faExclamationTriangle,
   faExclamationCircle,
@@ -38,6 +39,7 @@ import {
 library.add(
   faCheck,
   faCheckCircle,
+  faChevronLeft,
   faInfoCircle,
   faExclamationTriangle,
   faExclamationCircle,

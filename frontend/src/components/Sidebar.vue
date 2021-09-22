@@ -31,7 +31,12 @@ export default Vue.extend({
   components: { NavButton },
   computed: {
     routes: function() {
-      return this.$router.options.routes;
+      let r = this.$router.options.routes;
+      r = r?.filter(function(item) {
+        return !item.path.includes("/:");
+      });
+
+      return r;
     },
     activeRoute: function() {
       return this.$store.getters.getActiveRoute;
@@ -39,6 +44,7 @@ export default Vue.extend({
   },
 });
 </script>
+r
 
 <style>
 .logo-light {

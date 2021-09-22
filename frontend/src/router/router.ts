@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 
 import Home from "@/pages/Home.vue";
 import Clients from "@/pages/Clients.vue";
+import Profile from "@/pages/Profile.vue";
 import Projects from "@/pages/Projects.vue";
 import Clips from "@/pages/Clips.vue";
 import Settings from "@/pages/Settings.vue";
@@ -59,6 +60,17 @@ const routes = [
       title: "Settings ⚙️",
       subtitle: "",
       icon: "cog",
+      iconSize: "is-medium",
+    },
+  },
+  {
+    path: "/profile/:id",
+    name: "profile",
+    component: Profile,
+    meta: {
+      title: "Profile 📇",
+      subtitle: "Customers and connections",
+      icon: "address-book",
       iconSize: "is-medium",
     },
   },
