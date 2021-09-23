@@ -112,7 +112,6 @@ jobs:
           name: pod-macOS
 
       - name: Upload macOS package to release
-        id: upload-macOS-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -128,7 +127,6 @@ jobs:
           name: pod-linux
 
       - name: Upload Linux package to release
-        id: upload-linux-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -139,7 +137,6 @@ jobs:
           asset_content_type: application/octet-stream
 
       - name: Upload Linux AppImage to release
-        id: upload-linux-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
