@@ -142,6 +142,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
-          asset_path: ./pod.AppImage
+          asset_path: ./pod-linux/pod.AppImage
           asset_name: pod.AppImage
           asset_content_type: application/octet-stream
