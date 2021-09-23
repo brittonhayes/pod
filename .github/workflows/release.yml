@@ -114,7 +114,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{steps.create_release.outputs.version}}
-          file: ./pod-macOS/pod.zip
+          file: ./pod.zip
           asset_name: pod_${{steps.create_release.outputs.version}}_macOS.zip
 
       - name: Download linux package
@@ -131,16 +131,12 @@ jobs:
         run: |
           ls -R
 
-      - name: Unzip AppImage
-        run: |
-          unzip pod-appimage
-
       - name: Upload Linux package to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{steps.create_release.outputs.version}}
-          file: ./pod-linux/pod.tar.gz
+          file: ./pod.tar.gz
           asset_name: pod_${{steps.create_release.outputs.version}}_linux_x86_64.tar.gz
 
       - name: Upload Linux AppImage to release
