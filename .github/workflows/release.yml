@@ -105,6 +105,10 @@ jobs:
         with:
           name: pod-macOS
 
+      - name: List downloaded OSX files
+        run: |
+          ls -R
+
       - name: Upload macOS package to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -122,6 +126,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pod-appimage
+
+      - name: List downloaded Linux files
+        run: |
+          ls -R
 
       - name: Unzip AppImage
         run: |
