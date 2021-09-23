@@ -57,32 +57,35 @@ jobs:
           export LOG_LEVEL=debug
           export GODEBUG=1
           wails build
-          tar -czvf pod.tar.gz ./build/pod
           wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy*.AppImage
           ls ./
-          ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon-file=appicon--512.png --output appimage
+          ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon=appicon--512.png --output appimage
+          tar -czvf pod.tar.gz ./build/pod
         if: matrix.os == 'ubuntu-latest'
 
       - name: upload artifact macOS
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: pod-macOS
           path: pod.zip
+          retention-days: 5
         if: matrix.os == 'macos-latest'
 
       - name: upload artifact linux
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v2
         with:
           name: pod-linux
           path: pod.tar.gz
+          retention-days: 5
         if: matrix.os == 'ubuntu-latest'
 
       - name: upload artifact linux appimage
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v2
         with:
-          name: pod-linux-appimage
-          path: pod-${{ env.VERSION }}-x86_64.AppImage
+          name: pod.AppImage
+          path: pod-*-x86_64.AppImage
+          retention-days: 5
         if: matrix.os == 'ubuntu-latest'
 
   release:
@@ -133,4 +136,15 @@ jobs:
           upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
           asset_path: ./pod-linux/pod.tar.gz
           asset_name: pod_${{steps.create_release.outputs.version}}_linux_x86_64.tar.gz
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux AppImage to release
+        id: upload-linux-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+          asset_path: ./pod.AppImage
+          asset_name: pod.AppImage
           asset_content_type: application/octet-stream
