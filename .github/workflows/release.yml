@@ -60,7 +60,7 @@ jobs:
           wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy*.AppImage
           ls ./
-          ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon=appicon--512.png --output appimage
+          ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon-file=appicon--512.png --output appimage
           tar -czvf pod.tar.gz ./build/pod
         if: matrix.os == 'ubuntu-latest'
 
