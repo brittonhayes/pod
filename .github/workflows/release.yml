@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         go-version: [1.16.x]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-18.04, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Go
@@ -26,7 +26,7 @@ jobs:
 
       - name: Get Wails dependencies
         run: sudo apt update && sudo apt install -y libgtk-3-dev libwebkit2gtk-4.0-dev jq
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
 
       - name: Get Wails
         run: go get -u github.com/wailsapp/wails/cmd/wails
@@ -62,7 +62,7 @@ jobs:
           ls ./
           ./linuxdeploy*.AppImage --appdir AppDir --executable ./build/pod --desktop-file=pod.AppImage.desktop --icon-file=appicon--512.png --output appimage
           tar -czvf pod.tar.gz ./build/pod
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
 
       - name: upload artifact macOS
         uses: actions/upload-artifact@v2
@@ -78,7 +78,7 @@ jobs:
           name: pod-linux
           path: pod.tar.gz
           retention-days: 5
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
 
       - name: upload artifact linux appimage
         uses: actions/upload-artifact@v2
@@ -86,10 +86,10 @@ jobs:
           name: pod-appimage
           path: pod-*-x86_64.AppImage
           retention-days: 5
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
 
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     needs: package
     steps:
       - uses: go-semantic-release/action@v1
