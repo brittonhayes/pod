@@ -12,22 +12,31 @@ import Table from "@/components/Table.vue";
 import Banner from "@/components/Banner.vue";
 import Page from "@/mixins/Page";
 
-import { DefaultClients, ClientSort, ClientColumns } from "@/types/client";
+import { ClientSort, ClientColumns } from "@/types/client";
+
+import { mapMutations, mapState } from "vuex";
+import { UPDATE_FROM_DB } from "@/store/modules/mutations";
 
 export default Vue.extend({
   mixins: [Page],
   components: {
     Container,
     Banner,
-
     Table,
   },
   data() {
     return {
-      items: DefaultClients,
       sort: ClientSort,
       columns: ClientColumns,
     };
+  },
+  methods: {
+    ...mapMutations({ updateFromDB: UPDATE_FROM_DB }),
+  },
+  computed: {
+    ...mapState({
+      items: (state: any) => state.clients.clients,
+    }),
   },
 });
 </script>
