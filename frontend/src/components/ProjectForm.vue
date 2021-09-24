@@ -5,24 +5,30 @@
     </div>
     <section class="modal-card-body">
       <b-field label="Name">
-        <b-input v-model="internalName" />
+        <b-input v-model="form.Name" />
       </b-field>
       <b-field label="Client">
-        <b-input v-model="internalClient" maxlength="30" />
+        <b-input v-model="form.Client" maxlength="30" />
       </b-field>
       <b-field label="Summary">
-        <b-input v-model="internalSummary" type="textarea" maxlength="250" />
+        <b-input v-model="form.Summary" type="textarea" maxlength="250" />
       </b-field>
     </section>
     <footer class="modal-card-foot">
-      <b-button label="Go back" @click="$parent.close()" />
+      <b-button label="Go back" @click="toggleModal" />
       <b-button label="Save" @click="SubmitProject" type="is-success" />
     </footer>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {
+  SUBMIT_FORM,
+  UPDATE_FROM_DB,
+  TOGGLE_ENABLED,
+} from "@/store/modules/mutations";
 import Vue from "vue";
+import { mapMutations } from "vuex";
 export default Vue.extend({
   props: {
     name: {
@@ -37,35 +43,20 @@ export default Vue.extend({
   },
   data() {
     return {
-      internalName: this.name,
-      internalSummary: this.summary,
-      internalClient: this.client,
+      form: {
+        Name: this.name,
+        Summary: this.summary,
+        Client: this.client,
+      },
     };
   },
   methods: {
+    ...mapMutations({
+      toggleModal: TOGGLE_ENABLED,
+    }),
     SubmitProject: function() {
-      const project = {
-        Name: this.internalName,
-        Summary: this.internalSummary,
-        Client: this.internalClient,
-      };
-
-      window.backend.Storage.SaveProject(project)
-        .then(() => {
-          this.$buefy.snackbar.open({
-            message: `Submitted ${this.internalName}`,
-            type: "is-success",
-          });
-        })
-        .catch((err) => {
-          this.$buefy.snackbar.open({
-            message: `Failed to submit - ${err}`,
-            type: "is-danger",
-          });
-          console.error(err);
-        });
-
-      this.$parent.close();
+      this.$store.commit(SUBMIT_FORM, this.form);
+      this.$store.commit(UPDATE_FROM_DB);
     },
   },
 });

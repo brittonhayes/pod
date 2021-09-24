@@ -7,14 +7,14 @@
             icon-left="plus"
             label="Create project"
             type="is-success is-light"
-            @click="isOpen = !isOpen"
+            @click="toggleModal"
           />
-          <b-button icon-left="redo" type="is-light" @click="LoadProjects" />
+          <b-button icon-left="redo" type="is-light" @click="updateFromDB" />
         </div>
       </template>
     </banner>
     <section>
-      <b-modal v-model="isOpen" has-modal-card :width="1500">
+      <b-modal :active="modalEnabled" has-modal-card :width="1500">
         <project-form v-bind="project"></project-form>
       </b-modal>
     </section>
@@ -36,6 +36,14 @@ import Banner from "@/components/Banner.vue";
 import ProjectForm from "@/components/ProjectForm.vue";
 import ProjectCard from "@/components/ProjectCard.vue";
 
+import { mapGetters, mapMutations, mapState } from "vuex";
+import {
+  IS_ENABLED,
+  SET_ENABLED,
+  TOGGLE_ENABLED,
+  UPDATE_FROM_DB,
+} from "@/store/modules/mutations";
+
 export default Vue.extend({
   mixins: [Page],
   components: {
@@ -46,8 +54,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      isOpen: false,
-      projects: [],
       project: {
         name: "",
         summary: "",
@@ -56,24 +62,22 @@ export default Vue.extend({
     };
   },
   methods: {
-    LoadProjects: function() {
-      const that = this;
-      //@ts-ignore
-      window.backend.Storage.ListProjects()
-        .then((res: any) => {
-          that.projects = res;
-          return res;
-        })
-        .catch((err: Error) => {
-          console.error(err);
-          return [{}];
-        });
-    },
+    ...mapMutations({
+      updateFromDB: UPDATE_FROM_DB,
+      toggleModal: TOGGLE_ENABLED,
+    }),
+  },
+  beforeMount() {
+    this.$store.commit(SET_ENABLED, false);
   },
   mounted() {
-    this.LoadProjects();
+    this.updateFromDB();
   },
   computed: {
+    ...mapGetters({ modalEnabled: IS_ENABLED }),
+    ...mapState({
+      projects: (state: any) => state.projects.projects,
+    }),
     classObject: function() {
       return {
         panel: true,

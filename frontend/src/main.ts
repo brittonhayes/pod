@@ -1,13 +1,13 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import * as Wails from "@wailsapp/runtime";
+import Wails from "@wailsapp/runtime";
 import Vue from "vue";
 import Buefy from "buefy";
 
 import FontAwesomeIcon from "./icons";
 import App from "./App.vue";
 import router from "./router/router";
-import store from "./store/store";
+import { store } from "./store/store";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;

@@ -26,9 +26,22 @@
 <script lang="ts">
 import Vue from "vue";
 import NavButton from "./NavButton.vue";
+import { SET_ACTIVE } from "@/store/modules/mutations";
+import { mapState, mapMutations } from "vuex";
+import { Route } from "vue-router";
 
 export default Vue.extend({
+  watch: {
+    $route(to: Route) {
+      this.setActive(to.path);
+    },
+  },
   components: { NavButton },
+  methods: {
+    ...mapMutations({
+      setActive: SET_ACTIVE,
+    }),
+  },
   computed: {
     routes: function() {
       let r = this.$router.options.routes;
@@ -38,9 +51,9 @@ export default Vue.extend({
 
       return r;
     },
-    activeRoute: function() {
-      return this.$store.getters.getActiveRoute;
-    },
+    ...mapState({
+      activeRoute: (state: any) => state.router.active,
+    }),
   },
 });
 </script>
