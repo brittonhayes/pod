@@ -21,7 +21,7 @@ func (s *Storage) WailsInit(runtime *wails.Runtime) error {
 	s.r = runtime
 	s.logger = s.r.Log.New("Storage")
 
-	s.dbPath = store.Path("pod", "pod.db")
+	s.dbPath = store.Path("pod", "pod")
 	return nil
 }
 
@@ -45,6 +45,18 @@ func (s *Storage) QueryClients(field, value string) ([]client.Client, error) {
 	c := client.NewClient(s.dbPath)
 	results := []client.Client{}
 	_, err := c.Query(strings.ToTitle(field), value, results)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return []client.Client{}, err
+	}
+
+	return results, nil
+}
+
+func (s *Storage) ListClients() ([]client.Client, error) {
+	c := client.NewClient(s.dbPath)
+	results := []client.Client{}
+	_, err := c.List(results)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return []client.Client{}, err
