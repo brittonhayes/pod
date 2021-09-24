@@ -1,7 +1,11 @@
 import { PropType } from "vue";
 
 import { Client } from "@/types/client";
-import { SET_ACTIVE, SET_LIST } from "@/store/modules/mutations";
+import {
+  SET_ACTIVE,
+  SET_LIST,
+  UPDATE_FROM_DB,
+} from "@/store/modules/mutations";
 
 export const ClientsModule = {
   state: () => ({
@@ -14,6 +18,16 @@ export const ClientsModule = {
     },
     [SET_LIST](state: any, payload: Array<Client>) {
       state.clients = payload;
+    },
+    [UPDATE_FROM_DB](state: any) {
+      window.backend.Storage.ListClients()
+        .then((res) => {
+          state.clients = res;
+        })
+        .catch((err) => {
+          console.error(err);
+          state.clients = [{}];
+        });
     },
   },
   actions: {},
