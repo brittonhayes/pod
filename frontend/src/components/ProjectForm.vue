@@ -57,6 +57,7 @@ export default Vue.extend({
     SubmitProject: function() {
       this.$store.commit(SUBMIT_FORM, this.form);
       this.$store.commit(UPDATE_FROM_DB);
+      this.$store.commit(TOGGLE_ENABLED);
     },
   },
 });
