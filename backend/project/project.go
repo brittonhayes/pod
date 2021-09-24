@@ -6,20 +6,20 @@ import (
 	"github.com/brittonhayes/pod/backend/store"
 )
 
-const (
-	dbName = "project"
-)
-
 type Project struct {
 	ID        uint32    `storm:"id,increment" json:"id"`
 	Name      string    `storm:"index,unique" json:"name"`
 	Summary   string    `json:"summary"`
 	Client    string    `json:"client"`
 	CreatedAt time.Time `json:"created_at"`
+
+	db string `storm:"-"`
 }
 
-func NewProject() *Project {
-	return &Project{}
+func NewProject(path string) *Project {
+	return &Project{
+		db: path,
+	}
 }
 
 func (p *Project) With(name, summary, client string) *Project {
@@ -30,7 +30,7 @@ func (p *Project) With(name, summary, client string) *Project {
 }
 
 func (p *Project) Save() (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(p.db)
 	if err != nil {
 		return false, err
 	}
@@ -46,7 +46,7 @@ func (p *Project) Save() (bool, error) {
 }
 
 func (p *Project) Delete() (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(p.db)
 	if err != nil {
 		return false, err
 	}
@@ -61,7 +61,7 @@ func (p *Project) Delete() (bool, error) {
 }
 
 func (p *Project) Query(field, value string, to []Project) (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(p.db)
 	if err != nil {
 		return false, err
 	}
@@ -76,7 +76,7 @@ func (p *Project) Query(field, value string, to []Project) (bool, error) {
 }
 
 func (p *Project) List(to []Project) (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(p.db)
 	if err != nil {
 		return false, err
 	}

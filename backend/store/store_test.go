@@ -2,6 +2,7 @@ package store_test
 
 import (
 	"log"
+	"path/filepath"
 	"testing"
 
 	"github.com/brittonhayes/pod/backend/store"
@@ -14,8 +15,8 @@ type Example struct {
 }
 
 func TestDB(t *testing.T) {
-	dbName := "projects"
-	db, err := store.NewCustomDB(dbName, t.TempDir())
+
+	db, err := store.NewDB(filepath.Join(t.TempDir(), "projects.db"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,6 +37,11 @@ func TestDB(t *testing.T) {
 		to := Example{}
 
 		err := db.Get(defaultField, defaultName, &to)
+		if assert.NoError(t, err) {
+			assert.Equal(t, &arg, &to)
+		}
+
+		err = db.Get("ID", 1, &to)
 		if assert.NoError(t, err) {
 			assert.Equal(t, &arg, &to)
 		}

@@ -1,6 +1,7 @@
 package project_test
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/brittonhayes/pod/backend/config"
@@ -15,7 +16,7 @@ func TestNewProject(t *testing.T) {
 	summary := "Example summary"
 	client := "Example client"
 
-	p := project.NewProject()
+	p := project.NewProject(filepath.Join(t.TempDir(), "pod.db"))
 	p.With(name, summary, client)
 
 	t.Run("create new project", func(t *testing.T) {

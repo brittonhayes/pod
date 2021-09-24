@@ -2,7 +2,6 @@ package store
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -43,33 +42,19 @@ func (s *DB) WailsInit(runtime *wails.Runtime) error {
 	return nil
 }
 
-func Path(name string) string {
+func Path(folder, name string) string {
 	config, err := os.UserConfigDir()
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}
 
-	return filepath.Join(config, "pod", name+".db")
+	return filepath.Join(config, folder, name+".db")
 }
 
-func NewDB(name string) (*DB, error) {
+func NewDB(path string) (*DB, error) {
 	defaultDB := &DB{}
 
-	path := Path(name)
 	db, err := storm.Open(path)
-	if err != nil {
-		return defaultDB, err
-	}
-
-	return &DB{
-		db: db,
-	}, nil
-}
-
-func NewCustomDB(name string, folder string) (*DB, error) {
-	defaultDB := &DB{}
-
-	db, err := storm.Open(filepath.Join(folder, fmt.Sprintf("%s.db", name)))
 	if err != nil {
 		return defaultDB, err
 	}

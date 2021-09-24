@@ -36,8 +36,10 @@ func Run() error {
 		return err
 	}
 
-	configPath := filepath.Dir(store.Path(dbName))
-	err = os.MkdirAll(configPath, os.ModePerm)
+	configDir, _ := os.UserConfigDir()
+
+	dbPath := filepath.Dir(store.Path(configDir, dbName))
+	err = os.MkdirAll(dbPath, os.ModePerm)
 	if err != nil {
 		return err
 	}
