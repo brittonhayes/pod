@@ -104,3 +104,18 @@ func (c *Client) Query(field, value string, to []Client) (bool, error) {
 
 	return true, nil
 }
+
+func (c *Client) List(to []Client) (bool, error) {
+	db, err := store.NewDB(c.db)
+	if err != nil {
+		return false, err
+	}
+	defer db.Close()
+
+	err = db.List(&to)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}

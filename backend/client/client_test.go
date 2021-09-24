@@ -41,6 +41,15 @@ func TestNewClient(t *testing.T) {
 		t.Log(clients)
 	})
 
+	t.Run("list clients", func(t *testing.T) {
+		var clients []client.Client
+
+		ok, err := c.Query("Name", name[0:3], clients)
+		if assert.NoError(t, err) {
+			assert.True(t, ok)
+		}
+	})
+
 	t.Run("delete a client", func(t *testing.T) {
 		ok, err := c.Delete()
 		if assert.NoError(t, err) {
