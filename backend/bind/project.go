@@ -18,10 +18,11 @@ type ProjectState struct {
 
 // WailsInit is called when the component is being initialised
 func (s *ProjectState) WailsInit(runtime *wails.Runtime) error {
-	s.current = project.NewProject()
+
+	s.current = &project.Project{}
 	s.r = runtime
 	s.logger = runtime.Log.New("Project State")
-	s.store = runtime.Store.New("project", project.NewProject())
+	s.store = runtime.Store.New("project", &project.Project{})
 
 	s.store.Subscribe(func(state *project.Project) {
 		s.logger.Info(fmt.Sprintf("%#v", state))
@@ -31,7 +32,8 @@ func (s *ProjectState) WailsInit(runtime *wails.Runtime) error {
 }
 
 func (s *ProjectState) Set(payload map[string]interface{}) {
-	p := project.NewProject()
+
+	p := &project.Project{}
 	err := mapstructure.Decode(p, &payload)
 	if err != nil {
 		s.logger.Error(err.Error())

@@ -9,10 +9,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-const (
-	dbName = "client"
-)
-
 type Client struct {
 	ID          int               `storm:"id,increment" json:"id"`
 	Name        string            `storm:"index,unique" json:"name"`
@@ -21,6 +17,8 @@ type Client struct {
 	Phone       string            `json:"phone"`
 	Social      map[string]string `json:"social"`
 	CreatedAt   time.Time         `json:"created_at"`
+
+	db string `storm:"-"`
 }
 
 func Folder() string {
@@ -32,8 +30,10 @@ func Folder() string {
 	return filepath.Join(configDir, "pod", "clients")
 }
 
-func NewClient() *Client {
-	return &Client{}
+func NewClient(path string) *Client {
+	return &Client{
+		db: path,
+	}
 }
 
 func (c *Client) With(name, description, email, phone string) *Client {
@@ -44,8 +44,23 @@ func (c *Client) With(name, description, email, phone string) *Client {
 	return c
 }
 
+func (c *Client) GetByID(id int, to Client) (bool, error) {
+	db, err := store.NewDB(c.db)
+	if err != nil {
+		return false, err
+	}
+	defer db.Close()
+
+	err = db.Get("ID", id, &to)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
 func (c *Client) Save() (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(c.db)
 	if err != nil {
 		return false, err
 	}
@@ -60,14 +75,14 @@ func (c *Client) Save() (bool, error) {
 	return true, nil
 }
 
-func (p *Client) Delete() (bool, error) {
-	db, err := store.NewDB(dbName)
+func (c *Client) Delete() (bool, error) {
+	db, err := store.NewDB(c.db)
 	if err != nil {
 		return false, err
 	}
 	defer db.Close()
 
-	err = db.Delete(p)
+	err = db.Delete(c)
 	if err != nil {
 		return false, err
 	}
@@ -76,7 +91,7 @@ func (p *Client) Delete() (bool, error) {
 }
 
 func (c *Client) Query(field, value string, to []Client) (bool, error) {
-	db, err := store.NewDB(dbName)
+	db, err := store.NewDB(c.db)
 	if err != nil {
 		return false, err
 	}

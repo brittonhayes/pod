@@ -1,6 +1,7 @@
 package client_test
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/brittonhayes/pod/backend/client"
@@ -11,11 +12,12 @@ import (
 func TestNewClient(t *testing.T) {
 	config.Run()
 
-	c := client.NewClient()
+	c := client.NewClient(filepath.Join(t.TempDir(), "pod.db"))
 
 	name := "Example Client"
 	description := "Example description"
 	c.With(name, description, "email", "phone")
+	t.Logf("Testing with client: %#v\n", c)
 
 	t.Run("create new client", func(t *testing.T) {
 		assert.Equal(t, name, c.Name)
@@ -35,6 +37,8 @@ func TestNewClient(t *testing.T) {
 		if assert.NoError(t, err) {
 			assert.True(t, ok)
 		}
+
+		t.Log(clients)
 	})
 
 	t.Run("delete a client", func(t *testing.T) {
