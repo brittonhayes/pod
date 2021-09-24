@@ -113,7 +113,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{steps.create_release.outputs.version}}
+          tag: v${{steps.create_release.outputs.version}}
           file: ./pod.zip
           asset_name: pod_${{steps.create_release.outputs.version}}_macOS.zip
 
@@ -135,7 +135,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{steps.create_release.outputs.version}}
+          tag: v${{steps.create_release.outputs.version}}
           file: ./pod.tar.gz
           asset_name: pod_${{steps.create_release.outputs.version}}_linux_x86_64.tar.gz
 
@@ -143,6 +143,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{steps.create_release.outputs.version}}
+          tag: v${{steps.create_release.outputs.version}}
           file: pod*.AppImage
           file_glob: true
