@@ -144,6 +144,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{steps.create_release.outputs.version}}
-          file: pod.*.AppImage
-          asset_name: pod.AppImage
+          file: pod*.AppImage
           file_glob: true
