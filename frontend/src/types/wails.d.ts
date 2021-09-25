@@ -3,6 +3,7 @@ interface Config {
 }
 interface Storage {
 	ListClients(...args : any[]):Promise<any>
+	ListClips(...args : any[]):Promise<any>
 	ListProjects(...args : any[]):Promise<any>
 	QueryClients(...args : any[]):Promise<any>
 	QueryProjects(...args : any[]):Promise<any>

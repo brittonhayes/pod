@@ -6,7 +6,7 @@
         :key="index"
         class="column is-one-third"
       >
-        <card :title="item.name" />
+        <card :title="item" />
       </div>
     </div>
     <section class="section">

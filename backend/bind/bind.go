@@ -2,6 +2,9 @@ package bind
 
 import (
 	"errors"
+	"io/fs"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/brittonhayes/pod/backend/client"
@@ -56,6 +59,27 @@ func (s *Storage) QueryClients(field, value string) ([]client.Client, error) {
 	}
 
 	return results, nil
+}
+
+func (s *Storage) ListClips() ([]string, error) {
+	home, _ := os.UserHomeDir()
+	clipsDir := filepath.Join(home, "pod", "clips")
+
+	err := os.MkdirAll(clipsDir, os.ModePerm)
+	if err != nil {
+		return []string{""}, err
+	}
+
+	matches, err := fs.Glob(os.DirFS(clipsDir), "*.wav")
+	if err != nil {
+		return []string{""}, err
+	}
+
+	if len(matches) == 0 {
+		return []string{""}, nil
+	}
+
+	return matches, nil
 }
 
 func (s *Storage) ListClients() ([]client.Client, error) {

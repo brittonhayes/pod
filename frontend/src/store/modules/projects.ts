@@ -20,7 +20,7 @@ export const ProjectsModule = {
     active: Object as PropType<Project>,
     projects: Array<Project>(),
     form: Object as PropType<Project>,
-    enabled: Boolean,
+    enabled: false,
   }),
   getters: {
     [mu.Mutation(IS_ENABLED)](state: any): Boolean {

@@ -21,7 +21,7 @@ export const ClientsModule = {
     active: Object as PropType<Client>,
     clients: Array<Client>(),
     form: Object as PropType<Client>,
-    enabled: Boolean,
+    enabled: false,
   }),
   getters: {
     [mu.Mutation(IS_ENABLED)](state: any): Boolean {
@@ -53,7 +53,9 @@ export const ClientsModule = {
     [mu.Mutation(UPDATE_FROM_DB)](state: any) {
       window.backend.Storage.ListClients()
         .then((res) => {
-          state.clients = res;
+          if (res !== null) {
+            state.clients = res;
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -63,7 +65,7 @@ export const ClientsModule = {
   },
   actions: {
     [mu.Mutation(UPDATE_FROM_DB)](context: any) {
-      context.commit(UPDATE_FROM_DB);
+      context.commit(mu.Mutation(UPDATE_FROM_DB));
     },
     [mu.Mutation(SUBMIT_FORM)](context: any, form: Client) {
       context.commit(SUBMIT_FORM, form);

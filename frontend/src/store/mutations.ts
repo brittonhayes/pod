@@ -14,6 +14,7 @@ type Prefix = string;
 export const PROJECTS: Prefix = "PROJECTS";
 export const CLIENTS: Prefix = "CLIENTS";
 export const CLIPS: Prefix = "CLIPS";
+export const ROUTER: Prefix = "ROUTER";
 
 type Mutation = string;
 export const SET_ACTIVE: Mutation = "SET_ACTIVE";

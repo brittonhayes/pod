@@ -44,7 +44,6 @@ import {
   CLIENTS,
   IS_ENABLED,
   UPDATE_FROM_DB,
-  SET_ENABLED,
   TOGGLE_ENABLED,
 } from "@/store/mutations";
 
@@ -68,11 +67,8 @@ export default Vue.extend({
       columns: ClientColumns,
     };
   },
-  beforeMount() {
-    this.$store.commit(mu.Mutation(SET_ENABLED), false);
-  },
   mounted() {
-    this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
+    this.updateFromDB;
   },
   methods: {
     ...mapMutations({
