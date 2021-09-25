@@ -15,7 +15,7 @@ import Vue from "vue";
 import Page from "@/mixins/Page";
 import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
-import Cards from "@/components/Cards.vue";
+// import Cards from "@/components/Cards.vue";
 
 import { mapState, mapMutations } from "vuex";
 import { Mutator, CLIPS, UPDATE_FROM_DB } from "@/store/mutations";
@@ -28,7 +28,7 @@ export default Vue.extend({
   components: {
     Banner,
     Container,
-    Cards,
+    // Cards,
   },
   data() {
     return {};
