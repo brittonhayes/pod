@@ -34,6 +34,10 @@ import {
   faRedo,
   faReply,
   faSearch,
+  faPhone,
+  faEnvelope,
+  faFolderOpen,
+  faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -69,7 +73,11 @@ library.add(
   faPlus,
   faReply,
   faRedo,
-  faSearch
+  faSearch,
+  faPhone,
+  faEnvelope,
+  faFolderOpen,
+  faClipboardList
 );
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

@@ -2,7 +2,7 @@
   <container>
     <banner :title="title" :subtitle="subtitle">
       <template slot="buttons">
-        <div class="block buttons">
+        <div class="block buttons is-hidden-mobile">
           <b-button
             icon-left="plus"
             label="Create project"
@@ -14,22 +14,33 @@
       </template>
     </banner>
     <section>
-      <b-modal :active="modalEnabled" has-modal-card :width="1500">
+      <b-modal
+        :active="modalEnabled"
+        has-modal-card
+        :width="1500"
+        :can-cancel="true"
+        @close="toggleModal"
+      >
         <project-form v-bind="project"></project-form>
       </b-modal>
     </section>
-    <project-card
-      v-for="project in projects"
-      :key="project.id"
-      :project="project.name"
-      :client="project.client"
-      :content="project.summary"
-    />
+    <div v-if="projects.length > 0">
+      <project-card
+        v-for="project in projects"
+        :key="project.id"
+        :project="project.name"
+        :client="project.client"
+        :content="project.summary"
+      />
+    </div>
+    <div v-else class="notification has-text-centered py-6">
+      <p class="subtitle">{{ empty }}</p>
+    </div>
   </container>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import Page from "@/mixins/Page";
 import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
@@ -38,11 +49,16 @@ import ProjectCard from "@/components/ProjectCard.vue";
 
 import { mapGetters, mapMutations, mapState } from "vuex";
 import {
+  Mutator,
   IS_ENABLED,
   SET_ENABLED,
   TOGGLE_ENABLED,
   UPDATE_FROM_DB,
-} from "@/store/modules/mutations";
+  PROJECTS,
+} from "@/store/mutations";
+import { Project } from "@/types/project";
+
+const mu = new Mutator(PROJECTS);
 
 export default Vue.extend({
   mixins: [Page],
@@ -54,27 +70,27 @@ export default Vue.extend({
   },
   data() {
     return {
+      empty: "No projects",
       project: {
-        name: "",
-        summary: "",
-        client: "",
+        type: Object as PropType<Project>,
+        default: () => {},
       },
     };
   },
   methods: {
     ...mapMutations({
-      updateFromDB: UPDATE_FROM_DB,
-      toggleModal: TOGGLE_ENABLED,
+      updateFromDB: mu.Mutation(UPDATE_FROM_DB),
+      toggleModal: mu.Mutation(TOGGLE_ENABLED),
     }),
   },
   beforeMount() {
-    this.$store.commit(SET_ENABLED, false);
+    this.$store.commit(mu.Mutation(SET_ENABLED), false);
   },
   mounted() {
-    this.updateFromDB();
+    this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
   },
   computed: {
-    ...mapGetters({ modalEnabled: IS_ENABLED }),
+    ...mapGetters({ modalEnabled: mu.Mutation(IS_ENABLED) }),
     ...mapState({
       projects: (state: any) => state.projects.projects,
     }),

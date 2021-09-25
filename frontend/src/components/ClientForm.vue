@@ -1,55 +1,64 @@
 <template>
   <div class="modal-card" style="width: auto">
     <div class="modal-card-head">
-      New Project
+      New Client
     </div>
     <section class="modal-card-body">
-      <b-field label="Project">
-        <b-input v-model="form.Name" icon="tasks" required />
+      <b-field label="Name">
+        <b-input v-model="form.Name" required icon="user" />
       </b-field>
-      <b-field label="Client">
-        <b-input v-model="form.Client" maxlength="30" icon="user" required />
+      <b-field label="Email">
+        <b-input v-model="form.Email" required icon="envelope" />
       </b-field>
-      <b-field label="Summary">
-        <b-input v-model="form.Summary" type="textarea" maxlength="250" />
+      <b-field label="Phone">
+        <b-input v-model="form.Phone" required icon="phone" />
       </b-field>
     </section>
     <footer class="modal-card-foot">
       <b-button label="Go back" @click="toggleModal" />
-      <b-button label="Save" @click="SubmitProject" type="is-success" />
+      <b-button label="Save" @click="SubmitClient" type="is-success" />
     </footer>
   </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import {
   SUBMIT_FORM,
   UPDATE_FROM_DB,
   TOGGLE_ENABLED,
   Mutator,
-  PROJECTS,
+  CLIENTS,
 } from "@/store/mutations";
-
-import { Project } from "@/types/project";
-import Vue, { PropType } from "vue";
 import { mapMutations } from "vuex";
 
-const mu = new Mutator(PROJECTS);
+const mu = new Mutator(CLIENTS);
+
+// name: string;
+// description?: string;
+// email?: string;
+// phone?: string;
+// social?: Object;
 
 export default Vue.extend({
   props: {
-    formInput: Object as PropType<Project>,
+    name: String,
+    description: String,
+    email: String,
+    phone: String,
   },
   data() {
     return {
-      form: Object as PropType<Project>,
+      form: {
+        name: this.name,
+      },
     };
   },
   methods: {
     ...mapMutations({
       toggleModal: mu.Mutation(TOGGLE_ENABLED),
     }),
-    SubmitProject: function() {
+    SubmitClient: function() {
       this.$store.commit(mu.Mutation(SUBMIT_FORM), this.form);
       this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
       this.$store.commit(mu.Mutation(TOGGLE_ENABLED));

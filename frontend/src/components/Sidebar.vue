@@ -26,14 +26,14 @@
 <script lang="ts">
 import Vue from "vue";
 import NavButton from "./NavButton.vue";
-import { SET_ACTIVE } from "@/store/modules/mutations";
+import { SET_ACTIVE } from "@/store/mutations";
 import { mapState, mapMutations } from "vuex";
 import { Route } from "vue-router";
 
 export default Vue.extend({
   watch: {
     $route(to: Route) {
-      this.setActive(to.path);
+      this.$store.commit(SET_ACTIVE, to.path);
     },
   },
   components: { NavButton },

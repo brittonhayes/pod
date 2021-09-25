@@ -1,7 +1,7 @@
 import { Column } from "@/types/table";
 
 export interface Client {
-  id: number;
+  id?: number;
   name: string;
   description?: string;
   email?: string;
@@ -29,7 +29,7 @@ export const DefaultClients: Array<Client> = [
   },
 ];
 
-export const ClientSort: Array<string> = ["created_at", "asc"];
+export const ClientSort: Array<string> = ["id", "desc"];
 
 export const ClientColumns: Array<Column> = [
   {
@@ -41,13 +41,13 @@ export const ClientColumns: Array<Column> = [
   },
   {
     field: "name",
-    label: "Client",
+    label: "Name",
     sortable: true,
-    searchable: true,
+    searchable: false,
   },
   {
     field: "email",
-    label: "email",
+    label: "Email",
     sortable: true,
   },
   {
@@ -59,5 +59,6 @@ export const ClientColumns: Array<Column> = [
     field: "created_at",
     label: "Created",
     sortable: true,
+    visible: false,
   },
 ];

@@ -1,6 +1,7 @@
 package bind
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/brittonhayes/pod/backend/client"
@@ -26,6 +27,10 @@ func (s *Storage) WailsInit(runtime *wails.Runtime) error {
 }
 
 func (s *Storage) SaveClient(payload map[string]interface{}) (*client.Client, error) {
+	if payload == nil {
+		return nil, errors.New("submitted client was nil")
+	}
+
 	c := client.NewClient(s.dbPath)
 	err := mapstructure.Decode(payload, &c)
 	if err != nil {
@@ -54,15 +59,22 @@ func (s *Storage) QueryClients(field, value string) ([]client.Client, error) {
 }
 
 func (s *Storage) ListClients() ([]client.Client, error) {
-	c := client.NewClient(s.dbPath)
+
 	results := []client.Client{}
-	_, err := c.List(results)
+	db, err := store.NewDB(s.dbPath)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return []client.Client{}, err
+		return nil, err
+	}
+	defer db.Close()
+
+	err = db.List(&results)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
 	}
 
-	return results, nil
+	return results, err
 }
 
 func (s *Storage) ListProjects() ([]project.Project, error) {
@@ -98,6 +110,12 @@ func (s *Storage) QueryProjects(field, value string) ([]project.Project, error) 
 }
 
 func (s *Storage) SaveProject(payload map[string]interface{}) (*project.Project, error) {
+	if payload == nil {
+		err := errors.New("submitted project was nil")
+		s.logger.Error(err.Error())
+		return nil, err
+	}
+
 	p := project.NewProject(s.dbPath)
 	err := mapstructure.Decode(payload, &p)
 	if err != nil {

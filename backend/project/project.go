@@ -7,11 +7,11 @@ import (
 )
 
 type Project struct {
-	ID        uint32    `storm:"id,increment" json:"id"`
-	Name      string    `storm:"index,unique" json:"name"`
-	Summary   string    `json:"summary"`
-	Client    string    `json:"client"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        uint32 `storm:"id,increment" json:"id"`
+	Name      string `storm:"index,unique" json:"name"`
+	Summary   string `json:"summary"`
+	Client    string `json:"client"`
+	CreatedAt string `json:"created_at"`
 
 	db string `storm:"-"`
 }
@@ -36,7 +36,7 @@ func (p *Project) Save() (bool, error) {
 	}
 	defer db.Close()
 
-	p.CreatedAt = time.Now()
+	p.CreatedAt = time.Now().Format(time.RFC1123)
 	err = db.Set(p)
 	if err != nil {
 		return false, err

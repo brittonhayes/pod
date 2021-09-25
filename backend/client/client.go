@@ -16,7 +16,7 @@ type Client struct {
 	Email       string            `json:"email"`
 	Phone       string            `json:"phone"`
 	Social      map[string]string `json:"social"`
-	CreatedAt   time.Time         `json:"created_at"`
+	CreatedAt   string            `json:"created_at"`
 
 	db string `storm:"-"`
 }
@@ -66,7 +66,7 @@ func (c *Client) Save() (bool, error) {
 	}
 	defer db.Close()
 
-	c.CreatedAt = time.Now()
+	c.CreatedAt = time.Now().Format(time.RFC1123)
 	err = db.Set(c)
 	if err != nil {
 		return false, err
