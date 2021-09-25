@@ -1,4 +1,4 @@
-import { SET_ACTIVE } from "@/store/modules/mutations";
+import { SET_ACTIVE } from "@/store/mutations";
 
 export const RouterModule = {
   state: () => ({
