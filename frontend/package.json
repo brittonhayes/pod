@@ -16,6 +16,7 @@
     "buefy": "^0.9.10",
     "core-js": "^3.6.4",
     "regenerator-runtime": "^0.13.3",
+    "tone": "^14.7.77",
     "vue": "^2.6.11",
     "vue-router": "^3.5.2",
     "vuex": "^3.6.2"

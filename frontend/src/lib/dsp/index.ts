@@ -55,7 +55,6 @@ export class Processor {
         arrayBuffer,
         (audioBuffer) => {
           this.player.buffer = new ToneAudioBuffer(audioBuffer);
-          console.info("length: ", this.player.buffer.duration);
           this.player.toDestination().stop();
           this.player.toDestination().start();
         },

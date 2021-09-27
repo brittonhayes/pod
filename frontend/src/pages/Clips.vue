@@ -2,11 +2,33 @@
   <container>
     <Banner :title="title" :subtitle="subtitle" />
     <!-- <Cards :items="items" :perPage="12" color="light" /> -->
-    <div class="notification is-light has-text-centered">
-      <h2 class="subtitle">No WAV files found</h2>
+    <section>
+      <b-field>
+        <b-upload
+          name="foo"
+          v-model="fileUpload"
+          accept="audio/*"
+          drag-drop
+          expanded
+          type="is-primary"
+        >
+          <section class="section">
+            <div class="content has-text-centered">
+              <p>
+                <b-icon icon="upload" size="is-large"> </b-icon>
+              </p>
+              <p>Drag and drop an audio clip</p>
+            </div>
+          </section>
+        </b-upload>
+      </b-field>
       <br />
-      <b-tag type="is-primary" size="is-medium">~/pod/clips/*.wav</b-tag>
-    </div>
+      <div v-if="fileUpload.text" class="box block content">
+        <p class="has-text-info">
+          {{ fileUpload.name }}
+        </p>
+      </div>
+    </section>
   </container>
 </template>
 
@@ -19,7 +41,8 @@ import Banner from "@/components/Banner.vue";
 
 import { mapState, mapMutations } from "vuex";
 import { Mutator, CLIPS, UPDATE_FROM_DB } from "@/store/mutations";
-
+import { Player } from "tone";
+import { Processor } from "@/lib/dsp";
 const mu = new Mutator(CLIPS);
 
 export default Vue.extend({
@@ -31,7 +54,10 @@ export default Vue.extend({
     // Cards,
   },
   data() {
-    return {};
+    return {
+      audioPlayer: Player,
+      fileUpload: Blob,
+    };
   },
   mounted() {
     this.updateFromDB();
@@ -40,6 +66,15 @@ export default Vue.extend({
     ...mapMutations({
       updateFromDB: mu.Mutation(UPDATE_FROM_DB),
     }),
+  },
+  watch: {
+    fileUpload: function(blob: Blob) {
+      const player = new Player();
+      const processor = new Processor(player, true)
+        .WithFilter(400, "lowpass")
+        .WithLimiter(-5);
+      processor.Play(blob);
+    },
   },
   computed: {
     ...mapState({
