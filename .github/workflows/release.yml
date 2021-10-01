@@ -10,9 +10,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        go-version: [1.16.x]
         include:
           - os: macos-latest
+            go-version: 1.16.x
             artifact: pod-macOS
             path: pod.zip
             cmd: |
@@ -22,6 +22,7 @@ jobs:
               zip pod.zip pod.dmg
 
           - os: ubuntu-18.04
+            go-version: 1.16.x
             artifact: pod-linux
             path: pod.tar.gz
             cmd: |
