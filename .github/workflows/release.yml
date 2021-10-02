@@ -41,6 +41,23 @@ jobs:
       - name: Set Version
         run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Go Modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - name: Get Wails
         run: go get -u github.com/wailsapp/wails/cmd/wails
 
