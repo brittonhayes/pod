@@ -25,35 +25,26 @@ func TestNewProject(t *testing.T) {
 	})
 
 	t.Run("save a project", func(t *testing.T) {
-		ok, err := p.Save()
-		if assert.NoError(t, err) {
-			assert.True(t, ok)
-		}
+		err := p.Save()
+		assert.NoError(t, err)
 	})
 
-	t.Run("query a project", func(t *testing.T) {
-		var projects []project.Project
-
-		ok, err := p.Query("Name", name[0:3], projects)
+	t.Run("query a project by name", func(t *testing.T) {
+		projects, err := p.FindByName(name[0:3], 10)
 		if assert.NoError(t, err) {
-			assert.True(t, ok)
+			assert.NotNil(t, projects)
 		}
 	})
 
 	t.Run("list projects", func(t *testing.T) {
-		var projects []project.Project
-
-		ok, err := p.List(projects)
+		projects, err := p.List()
 		if assert.NoError(t, err) {
-			assert.True(t, ok)
-			assert.Greater(t, 1, len(projects))
+			assert.NotZero(t, len(projects))
 		}
 	})
 
 	t.Run("delete a project", func(t *testing.T) {
-		ok, err := p.Delete()
-		if assert.NoError(t, err) {
-			assert.True(t, ok)
-		}
+		err := p.Delete(name)
+		assert.NoError(t, err)
 	})
 }

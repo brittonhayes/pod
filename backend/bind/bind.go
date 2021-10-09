@@ -120,18 +120,18 @@ func (s *Storage) ListProjects() ([]project.Project, error) {
 	return results, err
 }
 
-func (s *Storage) QueryProjects(field, value string) ([]project.Project, error) {
+// func (s *Storage) QueryProjects(field, value string) ([]project.Project, error) {
 
-	p := project.NewProject(s.dbPath)
-	results := []project.Project{}
-	_, err := p.Query(strings.ToTitle(field), value, results)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return []project.Project{}, err
-	}
+// 	p := project.NewProject(s.dbPath)
+// 	results := []project.Project{}
+// 	_, err := p.FindByName(strings.ToTitle(field), value)
+// 	if err != nil {
+// 		s.logger.Error(err.Error())
+// 		return []project.Project{}, err
+// 	}
 
-	return results, nil
-}
+// 	return results, nil
+// }
 
 func (s *Storage) SaveProject(payload map[string]interface{}) (*project.Project, error) {
 	if payload == nil {
@@ -147,7 +147,7 @@ func (s *Storage) SaveProject(payload map[string]interface{}) (*project.Project,
 		return p, err
 	}
 
-	_, err = p.Save()
+	err = p.Save()
 	if err != nil {
 		s.logger.Error(err.Error())
 		return p, err
