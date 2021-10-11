@@ -27,5 +27,6 @@ export default Vue.extend({
     Container,
     Contact,
   },
+  methods: {},
 });
 </script>

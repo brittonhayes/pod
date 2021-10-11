@@ -5,13 +5,15 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/brittonhayes/pod/backend/client"
+	"github.com/brittonhayes/pod/backend/config"
 	"github.com/brittonhayes/pod/backend/project"
-	"github.com/brittonhayes/pod/backend/store"
-	"github.com/mitchellh/mapstructure"
 	"github.com/wailsapp/wails"
+)
+
+var (
+	ErrPayloadNil = errors.New("submitted payload was nil")
 )
 
 type Storage struct {
@@ -24,41 +26,19 @@ type Storage struct {
 func (s *Storage) WailsInit(runtime *wails.Runtime) error {
 	s.r = runtime
 	s.logger = s.r.Log.New("Storage")
+	s.dbPath = filepath.Join(config.Directory(), "pod.db")
 
-	s.dbPath = store.Path("pod", "pod")
+	config.Setup()
 	return nil
 }
 
-func (s *Storage) SaveClient(payload map[string]interface{}) (*client.Client, error) {
+func (s *Storage) SaveClient(payload map[string]interface{}) error {
 	if payload == nil {
-		return nil, errors.New("submitted client was nil")
+		return ErrPayloadNil
 	}
 
-	c := client.NewClient(s.dbPath)
-	err := mapstructure.Decode(payload, &c)
-	if err != nil {
-		return c, err
-	}
-
-	_, err = c.Save()
-	if err != nil {
-		s.logger.Error(err.Error())
-		return c, err
-	}
-
-	return c, nil
-}
-
-func (s *Storage) QueryClients(field, value string) ([]client.Client, error) {
-	c := client.NewClient(s.dbPath)
-	results := []client.Client{}
-	_, err := c.Query(strings.ToTitle(field), value, results)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return []client.Client{}, err
-	}
-
-	return results, nil
+	c := client.New(s.dbPath)
+	return c.SaveJSON(payload)
 }
 
 func (s *Storage) ListClips() ([]string, error) {
@@ -83,75 +63,30 @@ func (s *Storage) ListClips() ([]string, error) {
 }
 
 func (s *Storage) ListClients() ([]client.Client, error) {
-
-	results := []client.Client{}
-	db, err := store.NewDB(s.dbPath)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-	defer db.Close()
-
-	err = db.List(&results)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-
-	return results, err
+	c, err := client.New(s.dbPath).List()
+	return c, err
 }
 
 func (s *Storage) ListProjects() ([]project.Project, error) {
-
-	results := []project.Project{}
-	db, err := store.NewDB(s.dbPath)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-	defer db.Close()
-
-	err = db.List(&results)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-
-	return results, err
+	p, err := project.New(s.dbPath).List()
+	return p, err
 }
 
-// func (s *Storage) QueryProjects(field, value string) ([]project.Project, error) {
+func (s *Storage) FindProject(name string, limit int) ([]project.Project, error) {
+	p, err := project.New(s.dbPath).FindByName(name, limit)
+	return p, err
+}
 
-// 	p := project.NewProject(s.dbPath)
-// 	results := []project.Project{}
-// 	_, err := p.FindByName(strings.ToTitle(field), value)
-// 	if err != nil {
-// 		s.logger.Error(err.Error())
-// 		return []project.Project{}, err
-// 	}
-
-// 	return results, nil
-// }
+func (s *Storage) FindClient(id int) (*client.Client, error) {
+	return client.New(s.dbPath).GetByID(id)
+}
 
 func (s *Storage) SaveProject(payload map[string]interface{}) (*project.Project, error) {
 	if payload == nil {
-		err := errors.New("submitted project was nil")
-		s.logger.Error(err.Error())
-		return nil, err
+		return nil, ErrPayloadNil
 	}
 
-	p := project.NewProject(s.dbPath)
-	err := mapstructure.Decode(payload, &p)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return p, err
-	}
+	p := project.New(s.dbPath)
 
-	err = p.Save()
-	if err != nil {
-		s.logger.Error(err.Error())
-		return p, err
-	}
-
-	return p, nil
+	return p, p.SaveJSON(payload)
 }

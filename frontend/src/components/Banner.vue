@@ -4,10 +4,10 @@
       <div class="level-left">
         <div class="hero-body">
           <h1 :class="[classes.header, BannerTextColor]">
-            {{ title }}
+            {{ BannerTitle }}
           </h1>
           <h2 :class="[classes.subheader, BannerTextColor]">
-            {{ subtitle }}
+            {{ BannerSubtitle }}
           </h2>
         </div>
       </div>
@@ -61,10 +61,24 @@ export default Vue.extend({
         return MustBeOneOf("color", value, Palette);
       },
     },
+    construction: {
+      type: Boolean,
+      default: () => {
+        return false;
+      },
+    },
   },
   computed: {
     BannerColor: function() {
       return BackgroundColor(this.color as Color);
+    },
+    BannerTitle: function() {
+      return this.construction === false ? this.title : "🚧 Under construction";
+    },
+    BannerSubtitle: function() {
+      return this.construction === false
+        ? this.subtitle
+        : "Come back at a later release";
     },
     BannerTextColor: function() {
       return TextColor(this.color as Color);

@@ -37,13 +37,11 @@ import Vue from "vue";
 import Page from "@/mixins/Page";
 import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
-// import Cards from "@/components/Cards.vue";
 
 import { mapState, mapMutations } from "vuex";
-import { Mutator, CLIPS, UPDATE_FROM_DB } from "@/store/mutations";
+import { Namespace, UPDATE_FROM_DB } from "@/store/mutations";
 import { Player } from "tone";
 import { Processor } from "@/lib/dsp";
-const mu = new Mutator(CLIPS);
 
 export default Vue.extend({
   name: "Clips",
@@ -60,11 +58,11 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.updateFromDB();
+    this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
   },
   methods: {
     ...mapMutations({
-      updateFromDB: mu.Mutation(UPDATE_FROM_DB),
+      updateFromDB: UPDATE_FROM_DB,
     }),
   },
   watch: {

@@ -58,7 +58,7 @@ const routes = [
     component: Settings,
     meta: {
       title: "Settings ⚙️",
-      subtitle: "",
+      subtitle: "Customize and configure pod",
       icon: "cog",
       iconSize: "is-medium",
     },

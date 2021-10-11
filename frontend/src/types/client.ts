@@ -1,43 +1,23 @@
 import { Column } from "@/types/table";
+import { GormModel } from "./gorm";
 
-export interface Client {
-  id?: number;
+export interface Client extends GormModel {
   name: string;
   description?: string;
   email?: string;
   phone?: string;
   social?: Object;
-  created_at?: string;
 }
-
-export const DefaultClients: Array<Client> = [
-  {
-    id: 1,
-    name: "James",
-    description: "Foo bar",
-    email: "james@example.com",
-    phone: "123-456-7890",
-    created_at: new Date().toLocaleString(),
-  },
-  {
-    id: 2,
-    name: "Sarah",
-    description: "Foo baz",
-    email: "sarah@example.com",
-    phone: "123-786-7890",
-    created_at: new Date().toLocaleString(),
-  },
-];
 
 export const ClientSort: Array<string> = ["id", "desc"];
 
 export const ClientColumns: Array<Column> = [
   {
-    field: "id",
-    label: "id",
+    label: "ID",
+    field: "ID",
+    width: 10,
     numeric: true,
     sortable: true,
-    visible: false,
   },
   {
     field: "name",
@@ -56,9 +36,28 @@ export const ClientColumns: Array<Column> = [
     sortable: true,
   },
   {
-    field: "created_at",
+    field: "CreatedAt",
     label: "Created",
     sortable: true,
     visible: false,
+  },
+];
+
+export const DefaultClients: Array<Client> = [
+  {
+    ID: 1,
+    name: "James",
+    description: "Foo bar",
+    email: "james@example.com",
+    phone: "123-456-7890",
+    CreatedAt: new Date().toLocaleString(),
+  },
+  {
+    ID: 2,
+    name: "Sarah",
+    description: "Foo baz",
+    email: "sarah@example.com",
+    phone: "123-786-7890",
+    CreatedAt: new Date().toLocaleString(),
   },
 ];

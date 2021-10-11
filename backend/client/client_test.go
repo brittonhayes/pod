@@ -10,50 +10,42 @@ import (
 )
 
 func TestNewClient(t *testing.T) {
-	config.Run()
+	config.Setup()
 
-	c := client.NewClient(filepath.Join(t.TempDir(), "pod.db"))
+	defaultName := "Example Client"
+	defaultDescription := "Example description"
+	defaultEmail := "foo@email.lan"
+	defaultPhone := "123-456-7890"
 
-	name := "Example Client"
-	description := "Example description"
-	c.With(name, description, "email", "phone")
-	t.Logf("Testing with client: %#v\n", c)
+	c := client.New(filepath.Join(t.TempDir(), "pod.db"))
+	c.With(defaultName, defaultDescription, defaultEmail, defaultPhone)
 
 	t.Run("create new client", func(t *testing.T) {
-		assert.Equal(t, name, c.Name)
+		assert.Equal(t, defaultName, c.Name)
+		assert.Equal(t, defaultDescription, c.Description)
 	})
 
 	t.Run("save a client", func(t *testing.T) {
-		ok, err := c.Save()
-		if assert.NoError(t, err) {
-			assert.True(t, ok)
-		}
+		err := c.Save()
+		assert.NoError(t, err)
 	})
 
-	t.Run("query a client", func(t *testing.T) {
-		var clients []client.Client
-
-		ok, err := c.Query("Name", name[0:3], clients)
+	t.Run("query a client by name", func(t *testing.T) {
+		clients, err := c.FindByName(defaultName[0:3], 10)
 		if assert.NoError(t, err) {
-			assert.True(t, ok)
+			assert.NotNil(t, clients)
 		}
-
-		t.Log(clients)
 	})
 
 	t.Run("list clients", func(t *testing.T) {
-		var clients []client.Client
-
-		ok, err := c.Query("Name", name[0:3], clients)
+		clients, err := c.List()
 		if assert.NoError(t, err) {
-			assert.True(t, ok)
+			assert.NotZero(t, len(clients))
 		}
 	})
 
 	t.Run("delete a client", func(t *testing.T) {
-		ok, err := c.Delete()
-		if assert.NoError(t, err) {
-			assert.True(t, ok)
-		}
+		err := c.Delete(defaultName)
+		assert.NoError(t, err)
 	})
 }

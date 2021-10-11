@@ -2,7 +2,6 @@ import { PropType } from "vue";
 
 import { Client } from "@/types/client";
 import {
-  CLIENTS,
   SET_ACTIVE,
   SET_ENABLED,
   TOGGLE_ENABLED,
@@ -12,11 +11,8 @@ import {
   SUBMIT_FORM,
 } from "@/store/mutations";
 
-import { Mutator } from "@/store/mutations";
-
-const mu = new Mutator(CLIENTS);
-
 export const ClientsModule = {
+  namespaced: true,
   state: () => ({
     active: Object as PropType<Client>,
     clients: Array<Client>(),
@@ -24,24 +20,24 @@ export const ClientsModule = {
     enabled: false,
   }),
   getters: {
-    [mu.Mutation(IS_ENABLED)](state: any): Boolean {
+    [IS_ENABLED](state: any): Boolean {
       return state.enabled;
     },
   },
   mutations: {
-    [mu.Mutation(SET_ENABLED)](state: any, value: Boolean) {
+    [SET_ENABLED](state: any, value: Boolean) {
       state.enabled = value;
     },
-    [mu.Mutation(TOGGLE_ENABLED)](state: any) {
+    [TOGGLE_ENABLED](state: any) {
       state.enabled = !state.enabled;
     },
-    [mu.Mutation(SET_ACTIVE)](state: any, id: number) {
-      state.active = state.clients.find((client: Client) => client.id === id);
+    [SET_ACTIVE](state: any, id: number) {
+      state.active = state.clients.find((client: Client) => client.ID === id);
     },
-    [mu.Mutation(SET_LIST)](state: any, payload: Array<Client>) {
+    [SET_LIST](state: any, payload: Array<Client>) {
       state.clients = payload;
     },
-    [mu.Mutation(SUBMIT_FORM)](state: any, form: Client) {
+    [SUBMIT_FORM](state: any, form: Client) {
       window.backend.Storage.SaveClient(form)
         .then((res) => {
           state.active = res;
@@ -50,7 +46,7 @@ export const ClientsModule = {
           console.error(err);
         });
     },
-    [mu.Mutation(UPDATE_FROM_DB)](state: any) {
+    [UPDATE_FROM_DB](state: any) {
       window.backend.Storage.ListClients()
         .then((res) => {
           if (res !== null) {
@@ -64,10 +60,10 @@ export const ClientsModule = {
     },
   },
   actions: {
-    [mu.Mutation(UPDATE_FROM_DB)](context: any) {
-      context.commit(mu.Mutation(UPDATE_FROM_DB));
+    [UPDATE_FROM_DB](context: any) {
+      context.commit(UPDATE_FROM_DB);
     },
-    [mu.Mutation(SUBMIT_FORM)](context: any, form: Client) {
+    [SUBMIT_FORM](context: any, form: Client) {
       context.commit(SUBMIT_FORM, form);
     },
   },

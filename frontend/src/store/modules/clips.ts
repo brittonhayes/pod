@@ -1,13 +1,12 @@
-import { Mutator, CLIENTS, UPDATE_FROM_DB } from "@/store/mutations";
-
-const mu = new Mutator(CLIENTS);
+import { UPDATE_FROM_DB } from "@/store/mutations";
 
 export const ClipsModule = {
+  namespaced: true,
   state: () => ({
     clips: Array<string>(),
   }),
   mutations: {
-    [mu.Mutation(UPDATE_FROM_DB)](state: any) {
+    [UPDATE_FROM_DB](state: any) {
       window.backend.Storage.ListClips()
         .then((res) => {
           state.clips = res;
@@ -18,7 +17,7 @@ export const ClipsModule = {
     },
   },
   actions: {
-    [mu.Mutation(UPDATE_FROM_DB)](context: any) {
+    [UPDATE_FROM_DB](context: any) {
       context.commit(UPDATE_FROM_DB);
     },
   },

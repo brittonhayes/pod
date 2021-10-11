@@ -24,15 +24,13 @@
         <project-form v-bind="project"></project-form>
       </b-modal>
     </section>
-    <div v-if="projects.length > 0">
-      <project-card
-        v-for="project in projects"
-        :key="project.id"
-        :project="project.name"
-        :client="project.client"
-        :content="project.summary"
-      />
-    </div>
+    <Table
+      v-if="items"
+      :data="items"
+      :columns="columns"
+      :sort="sort"
+      :selected="project"
+    />
     <div v-else class="notification has-text-centered py-6">
       <p class="subtitle">{{ empty }}</p>
     </div>
@@ -45,28 +43,25 @@ import Page from "@/mixins/Page";
 import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
 import ProjectForm from "@/components/ProjectForm.vue";
-import ProjectCard from "@/components/ProjectCard.vue";
+import Table from "@/components/Table.vue";
 
 import { mapGetters, mapMutations, mapState } from "vuex";
 import {
-  Mutator,
   IS_ENABLED,
+  Namespace,
   SET_ENABLED,
   TOGGLE_ENABLED,
   UPDATE_FROM_DB,
-  PROJECTS,
 } from "@/store/mutations";
-import { Project } from "@/types/project";
-
-const mu = new Mutator(PROJECTS);
+import { Project, ProjectColumns, ProjectSort } from "@/types/project";
 
 export default Vue.extend({
   mixins: [Page],
   components: {
     Banner,
     Container,
+    Table,
     ProjectForm,
-    ProjectCard,
   },
   data() {
     return {
@@ -75,24 +70,26 @@ export default Vue.extend({
         type: Object as PropType<Project>,
         default: () => {},
       },
+      sort: ProjectSort,
+      columns: ProjectColumns,
     };
   },
   methods: {
     ...mapMutations({
-      updateFromDB: mu.Mutation(UPDATE_FROM_DB),
-      toggleModal: mu.Mutation(TOGGLE_ENABLED),
+      updateFromDB: Namespace.Projects + UPDATE_FROM_DB,
+      toggleModal: Namespace.Projects + TOGGLE_ENABLED,
     }),
   },
   beforeMount() {
-    this.$store.commit(mu.Mutation(SET_ENABLED), false);
+    this.$store.commit(Namespace.Projects + SET_ENABLED, false);
   },
   mounted() {
-    this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
+    this.$store.commit(Namespace.Projects + UPDATE_FROM_DB);
   },
   computed: {
-    ...mapGetters({ modalEnabled: mu.Mutation(IS_ENABLED) }),
+    ...mapGetters({ modalEnabled: Namespace.Projects + IS_ENABLED }),
     ...mapState({
-      projects: (state: any) => state.projects.projects,
+      items: (state: any) => state.projects.projects,
     }),
     classObject: function() {
       return {

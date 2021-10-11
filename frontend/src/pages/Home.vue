@@ -1,6 +1,7 @@
 <template>
   <container>
-    <Banner :title="title" :subtitle="subtitle" />
+    <Banner :title="title" :subtitle="subtitle" :construction="true" />
+    <placeholder animated />
   </container>
 </template>
 
@@ -9,6 +10,7 @@ import Vue from "vue";
 import Page from "@/mixins/Page";
 import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
+import Placeholder from "@/components/Placeholder.vue";
 
 export default Vue.extend({
   name: "Home",
@@ -16,6 +18,7 @@ export default Vue.extend({
   components: {
     Container,
     Banner,
+    Placeholder,
   },
 });
 </script>

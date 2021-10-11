@@ -1,20 +1,10 @@
-export class Mutator {
-  private prefix: Prefix;
-
-  constructor(prefix: Prefix) {
-    this.prefix = prefix;
-  }
-
-  Mutation(name: Mutation): string {
-    return this.prefix.toUpperCase() + "_" + name;
-  }
+export enum Namespace {
+  Projects = "projects/",
+  Clients = "clients/",
+  Clips = "clips/",
+  Router = "router/",
+  Loading = "loading/",
 }
-
-type Prefix = string;
-export const PROJECTS: Prefix = "PROJECTS";
-export const CLIENTS: Prefix = "CLIENTS";
-export const CLIPS: Prefix = "CLIPS";
-export const ROUTER: Prefix = "ROUTER";
 
 type Mutation = string;
 export const SET_ACTIVE: Mutation = "SET_ACTIVE";

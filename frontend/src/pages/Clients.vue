@@ -24,7 +24,12 @@
         <client-form v-bind="client"></client-form>
       </b-modal>
     </section>
-    <Table :data="items" :columns="columns" :sort="sort" />
+    <Table
+      :data="items"
+      :columns="columns"
+      :sort="sort"
+      @row-click="(row) => viewClient(row)"
+    />
   </container>
 </template>
 
@@ -40,14 +45,11 @@ import { ClientSort, ClientColumns, Client } from "@/types/client";
 
 import { mapMutations, mapState, mapGetters } from "vuex";
 import {
-  Mutator,
-  CLIENTS,
   IS_ENABLED,
   UPDATE_FROM_DB,
   TOGGLE_ENABLED,
+  Namespace,
 } from "@/store/mutations";
-
-const mu = new Mutator(CLIENTS);
 
 export default Vue.extend({
   mixins: [Page],
@@ -68,16 +70,20 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.updateFromDB;
+    this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
   },
   methods: {
     ...mapMutations({
-      updateFromDB: mu.Mutation(UPDATE_FROM_DB),
-      toggleModal: mu.Mutation(TOGGLE_ENABLED),
+      updateFromDB: Namespace.Clients + UPDATE_FROM_DB,
+      toggleModal: Namespace.Clients + TOGGLE_ENABLED,
     }),
+    viewClient: function(row: Client) {
+      console.log(row);
+      this.$router.push("/profile/" + row.ID);
+    },
   },
   computed: {
-    ...mapGetters({ modalEnabled: mu.Mutation(IS_ENABLED) }),
+    ...mapGetters({ modalEnabled: Namespace.Clients + IS_ENABLED }),
     ...mapState({
       items: (state: any) => state.clients.clients,
     }),

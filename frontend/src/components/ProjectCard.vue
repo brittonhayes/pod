@@ -1,13 +1,19 @@
 <template>
-  <section class="box has-border-project">
-    <article class="content">
-      <h2 class="title is-size-5 has-text-project">
-        {{ project }}
-      </h2>
-      <p class="subtitle is-size-6 has-text-client">{{ client }}</p>
-      <p class="is-hidden-touch">{{ content }}</p>
+  <div class="card my-5">
+    <article class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <b-icon icon="tasks" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-6" v-text="project" />
+          <p class="subtitle is-7 has-text-danger" v-text="client" />
+        </div>
+      </div>
     </article>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,6 +21,12 @@ import Vue from "vue";
 export default Vue.extend({
   name: "ProjectCard",
   props: {
+    detailed: {
+      type: Boolean,
+      default: () => {
+        return false;
+      },
+    },
     project: {
       type: String,
       required: true,
@@ -43,11 +55,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.has-bg-project {
+}
+
 .has-text-project {
   color: #161616;
 }
 .has-text-client {
   color: #aaaaaa;
+  font-family: monospace;
 }
 
 .has-border-project {

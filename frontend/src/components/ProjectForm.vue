@@ -5,13 +5,22 @@
     </div>
     <section class="modal-card-body">
       <b-field label="Project">
-        <b-input v-model="form.Name" icon="tasks" required />
+        <b-input v-model="form.name" icon="tasks" required />
       </b-field>
       <b-field label="Client">
-        <b-input v-model="form.Client" maxlength="30" icon="user" required />
+        <b-autocomplete
+          v-model="form.client"
+          :data="clients"
+          field="name"
+          placeholder="Select a client"
+          required
+          @select="(option) => (selected = option)"
+        >
+          <template #empty>No results found</template>
+        </b-autocomplete>
       </b-field>
       <b-field label="Summary">
-        <b-input v-model="form.Summary" type="textarea" maxlength="250" />
+        <b-input v-model="form.summary" type="textarea" maxlength="250" />
       </b-field>
     </section>
     <footer class="modal-card-foot">
@@ -26,34 +35,41 @@ import {
   SUBMIT_FORM,
   UPDATE_FROM_DB,
   TOGGLE_ENABLED,
-  Mutator,
-  PROJECTS,
+  Namespace,
 } from "@/store/mutations";
 
-import { Project } from "@/types/project";
-import Vue, { PropType } from "vue";
-import { mapMutations } from "vuex";
-
-const mu = new Mutator(PROJECTS);
+import Vue from "vue";
+import { mapMutations, mapState } from "vuex";
 
 export default Vue.extend({
   props: {
-    formInput: Object as PropType<Project>,
+    name: String,
+    summary: String,
+    client: String,
   },
   data() {
     return {
-      form: Object as PropType<Project>,
+      form: {
+        name: this.name,
+        summary: this.summary,
+        client: this.client,
+      },
     };
   },
   methods: {
     ...mapMutations({
-      toggleModal: mu.Mutation(TOGGLE_ENABLED),
+      toggleModal: Namespace.Projects + TOGGLE_ENABLED,
     }),
     SubmitProject: function() {
-      this.$store.commit(mu.Mutation(SUBMIT_FORM), this.form);
-      this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
-      this.$store.commit(mu.Mutation(TOGGLE_ENABLED));
+      this.$store.commit(Namespace.Projects + SUBMIT_FORM, this.form);
+      this.$store.commit(Namespace.Projects + UPDATE_FROM_DB);
+      this.$store.commit(Namespace.Projects + TOGGLE_ENABLED);
     },
+  },
+  computed: {
+    ...mapState({
+      clients: (state: any) => state.clients.clients,
+    }),
   },
 });
 </script>

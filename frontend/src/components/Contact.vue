@@ -4,17 +4,21 @@
       <nav class="level">
         <div class="level-item level-left">
           <figure class="image is-96x96 mr-5">
-            <img
-              class="is-rounded"
-              src="https://bulma.io/images/placeholders/96x96.png"
-            />
+            <b-image
+              :src="
+                `https://avatars.dicebear.com/api/initials/${client.name}.svg`
+              "
+              ratio="96by96"
+              rounded
+            ></b-image>
           </figure>
           <div class="block">
             <h1 class="title is-size-2">
-              Client Name
+              {{ client.name }}
             </h1>
             <small>
-              Last updated: <em>{{ new Date().toLocaleString() }}</em>
+              Last updated:
+              <em>{{ new Date(client.UpdatedAt).toLocaleString() }}</em>
             </small>
           </div>
         </div>
@@ -22,7 +26,7 @@
     </div>
 
     <b-field label="Summary">
-      <b-input type="textarea"></b-input>
+      <b-input type="textarea" v-model="client.description"></b-input>
     </b-field>
 
     <b-field class="mb-5">
@@ -49,10 +53,27 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import Page from "@/mixins/Page";
+import { Client } from "@/types/client";
 
 export default Vue.extend({
   mixins: [Page],
+  data() {
+    return {
+      client: Object as PropType<Client>,
+    };
+  },
+  beforeMount() {
+    let id = parseInt(this.$route.params.id);
+    window.backend.Storage.FindClient(id)
+      .then((c) => {
+        console.log(c);
+        this.client = c;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  },
 });
 </script>

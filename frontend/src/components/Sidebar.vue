@@ -26,22 +26,20 @@
 <script lang="ts">
 import Vue from "vue";
 import NavButton from "./NavButton.vue";
-import { SET_ACTIVE, Mutator, ROUTER } from "@/store/mutations";
+import { SET_ACTIVE, Namespace, IS_ENABLED } from "@/store/mutations";
 import { mapState, mapMutations } from "vuex";
 import { Route } from "vue-router";
-
-const mu = new Mutator(ROUTER);
 
 export default Vue.extend({
   watch: {
     $route(to: Route) {
-      this.$store.commit(mu.Mutation(SET_ACTIVE), to.path);
+      this.$store.commit(Namespace.Router + SET_ACTIVE, to.path);
     },
   },
   components: { NavButton },
   methods: {
     ...mapMutations({
-      setActive: mu.Mutation(SET_ACTIVE),
+      setActive: Namespace.Router + SET_ACTIVE,
     }),
   },
   computed: {
@@ -54,7 +52,7 @@ export default Vue.extend({
       return r;
     },
     ...mapState({
-      activeRoute: (state: any) => state.router.active,
+      [Namespace.Router + IS_ENABLED]: (state: any) => state.router.active,
     }),
   },
 });

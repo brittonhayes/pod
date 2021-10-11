@@ -1,19 +1,18 @@
-import { Mutator, ROUTER, SET_ACTIVE } from "@/store/mutations";
-
-const mu = new Mutator(ROUTER);
+import { SET_ACTIVE } from "@/store/mutations";
 
 export const RouterModule = {
+  namespaced: true,
   state: () => ({
     active: String,
   }),
   mutations: {
-    [mu.Mutation(SET_ACTIVE)](state: any, route: string) {
+    [SET_ACTIVE](state: any, route: string) {
       state.active = route;
     },
   },
   actions: {
-    [mu.Mutation(SET_ACTIVE)](context: any, route: string) {
-      context.commit(mu.Mutation(SET_ACTIVE), route);
+    [SET_ACTIVE](context: any, route: string) {
+      context.commit(SET_ACTIVE, route);
     },
   },
   getters: {},

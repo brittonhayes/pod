@@ -5,13 +5,13 @@
     </div>
     <section class="modal-card-body">
       <b-field label="Name">
-        <b-input v-model="form.Name" required icon="user" />
+        <b-input v-model="form.name" required icon="user" />
       </b-field>
       <b-field label="Email">
-        <b-input v-model="form.Email" required icon="envelope" />
+        <b-input v-model="form.email" required icon="envelope" />
       </b-field>
       <b-field label="Phone">
-        <b-input v-model="form.Phone" required icon="phone" />
+        <b-input v-model="form.phone" required icon="phone" />
       </b-field>
     </section>
     <footer class="modal-card-foot">
@@ -27,18 +27,9 @@ import {
   SUBMIT_FORM,
   UPDATE_FROM_DB,
   TOGGLE_ENABLED,
-  Mutator,
-  CLIENTS,
+  Namespace,
 } from "@/store/mutations";
 import { mapMutations } from "vuex";
-
-const mu = new Mutator(CLIENTS);
-
-// name: string;
-// description?: string;
-// email?: string;
-// phone?: string;
-// social?: Object;
 
 export default Vue.extend({
   props: {
@@ -51,17 +42,19 @@ export default Vue.extend({
     return {
       form: {
         name: this.name,
+        email: this.email,
+        phone: this.phone,
       },
     };
   },
   methods: {
     ...mapMutations({
-      toggleModal: mu.Mutation(TOGGLE_ENABLED),
+      toggleModal: Namespace.Clients + TOGGLE_ENABLED,
     }),
     SubmitClient: function() {
-      this.$store.commit(mu.Mutation(SUBMIT_FORM), this.form);
-      this.$store.commit(mu.Mutation(UPDATE_FROM_DB));
-      this.$store.commit(mu.Mutation(TOGGLE_ENABLED));
+      this.$store.commit(Namespace.Clients + SUBMIT_FORM, this.form);
+      this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
+      this.$store.commit(Namespace.Clients + TOGGLE_ENABLED);
     },
   },
 });

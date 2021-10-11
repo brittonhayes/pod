@@ -7,6 +7,7 @@ import { ProjectsModule } from "@/store/modules/projects";
 import { ClientsModule } from "@/store/modules/clients";
 import { ClipsModule } from "@/store/modules/clips";
 import { RouterModule } from "@/store/modules/router";
+import { LoadingModule } from "@/store/modules/loading";
 
 Vue.use(Vuex);
 
@@ -17,5 +18,6 @@ export const store = new Vuex.Store({
     clients: ClientsModule,
     clips: ClipsModule,
     router: RouterModule,
+    loading: LoadingModule,
   },
 });

@@ -1,36 +1,34 @@
 package client
 
 import (
-	"os"
-	"path/filepath"
-	"time"
-
 	"github.com/brittonhayes/pod/backend/store"
-	"github.com/rs/zerolog/log"
+	"gorm.io/gorm"
 )
 
+var (
+	TableName = "clients"
+)
+
+type Social struct {
+	Website   string `json:"website"`
+	Instagram string `json:"instagram"`
+	Twitter   string `json:"twitter"`
+	Facebook  string `json:"facebook"`
+	LinkedIn  string `json:"linkedin"`
+}
 type Client struct {
-	ID          int               `storm:"id,increment" json:"id"`
-	Name        string            `storm:"index,unique" json:"name"`
-	Description string            `json:"description"`
-	Email       string            `json:"email"`
-	Phone       string            `json:"phone"`
-	Social      map[string]string `json:"social"`
-	CreatedAt   string            `json:"created_at"`
+	gorm.Model
 
-	db string `storm:"-"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Social      Social `gorm:"embedded;embeddedPrefix:social_"`
+
+	db string `gorm:"-"`
 }
 
-func Folder() string {
-	configDir, err := os.UserConfigDir()
-	if err != nil {
-		log.Fatal().Err(err)
-	}
-
-	return filepath.Join(configDir, "pod", "clients")
-}
-
-func NewClient(path string) *Client {
+func New(path string) *Client {
 	return &Client{
 		db: path,
 	}
@@ -44,78 +42,65 @@ func (c *Client) With(name, description, email, phone string) *Client {
 	return c
 }
 
-func (c *Client) GetByID(id int, to Client) (bool, error) {
-	db, err := store.NewDB(c.db)
+func (c *Client) GetByID(id int) (*Client, error) {
+	db, err := store.New(c.db, &Client{})
 	if err != nil {
-		return false, err
-	}
-	defer db.Close()
-
-	err = db.Get("ID", id, &to)
-	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	tx := db.Find(c, id)
+	return c, tx.Error
 }
 
-func (c *Client) Save() (bool, error) {
-	db, err := store.NewDB(c.db)
+func (c *Client) Save() error {
+	db, err := store.New(c.db, &Client{})
 	if err != nil {
-		return false, err
-	}
-	defer db.Close()
-
-	c.CreatedAt = time.Now().Format(time.RFC1123)
-	err = db.Set(c)
-	if err != nil {
-		return false, err
+		return err
 	}
 
-	return true, nil
+	tx := db.Model(&Client{}).Create(c)
+
+	return tx.Error
 }
 
-func (c *Client) Delete() (bool, error) {
-	db, err := store.NewDB(c.db)
+func (c *Client) SaveJSON(payload map[string]interface{}) error {
+	db, err := store.New(c.db, &Client{})
 	if err != nil {
-		return false, err
-	}
-	defer db.Close()
-
-	err = db.Delete(c)
-	if err != nil {
-		return false, err
+		return err
 	}
 
-	return true, nil
+	tx := db.Model(&Client{}).Create(payload)
+	return tx.Error
 }
 
-func (c *Client) Query(field, value string, to []Client) (bool, error) {
-	db, err := store.NewDB(c.db)
+func (c *Client) Delete(name string) error {
+	db, err := store.New(c.db)
 	if err != nil {
-		return false, err
+		return err
 	}
-	defer db.Close()
-
-	err = db.Query(field, value, &to)
-	if err != nil {
-		return false, err
-	}
-
-	return true, nil
+	tx := db.Where("name = ?", name).Delete(c)
+	return tx.Error
 }
 
-func (c *Client) List(to []Client) (bool, error) {
-	db, err := store.NewDB(c.db)
+func (c *Client) FindByName(name string, limit int) ([]Client, error) {
+	db, err := store.New(c.db, &Client{})
 	if err != nil {
-		return false, err
-	}
-	defer db.Close()
-
-	err = db.List(&to)
-	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	var clients []Client
+	tx := db.Model(c).Limit(limit).Where("name LIKE ?", name).Find(&clients)
+
+	return clients, tx.Error
+}
+
+func (c *Client) List() ([]Client, error) {
+	db, err := store.New(c.db, &Client{})
+	if err != nil {
+		return nil, err
+	}
+
+	var projects []Client
+	tx := db.Table(TableName).Select("*").Scan(&projects)
+	return projects, tx.Error
 }

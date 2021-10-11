@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "frontend/",
+			"problemMatcher": [],
+			"label": "npm: serve - frontend",
+			"detail": "vue-cli-service serve",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"problemMatcher": [],
+			"label": "wails: serve - backend",
+			"command": "wails serve",
+			"detail": "wails serve backend application",
+			"group": "build"
+		}
+	]
+}

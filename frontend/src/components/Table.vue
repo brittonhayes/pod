@@ -1,6 +1,14 @@
 <template>
   <section>
-    <b-table :data="data" :columns="columns" :default-sort="sort" paginated>
+    <b-table
+      :data="data"
+      :columns="columns"
+      :default-sort="sort"
+      paginated
+      hoverable
+      :row-class="(row, index) => rowClass"
+      @click="(row, index) => $emit('row-click', row, index)"
+    >
       <template #empty>
         <div class="notification has-text-centered">No results</div>
       </template>
@@ -26,5 +34,18 @@ export default Vue.extend({
       required: true,
     },
   },
+  data() {
+    return {
+      rowClass: {
+        "has-row-style": true,
+      },
+    };
+  },
 });
 </script>
+
+<style lang="scss">
+.has-row-style:hover {
+  cursor: pointer;
+}
+</style>

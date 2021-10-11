@@ -4,19 +4,22 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/brittonhayes/pod/backend/client"
 	"github.com/brittonhayes/pod/backend/config"
 	"github.com/brittonhayes/pod/backend/project"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewProject(t *testing.T) {
-	config.Run()
+	config.Setup()
 
 	name := "Example Project"
 	summary := "Example summary"
-	client := "Example client"
+	client := client.Client{
+		Name: "Joey",
+	}
 
-	p := project.NewProject(filepath.Join(t.TempDir(), "pod.db"))
+	p := project.New(filepath.Join(t.TempDir(), "pod.db"))
 	p.With(name, summary, client)
 
 	t.Run("create new project", func(t *testing.T) {
@@ -26,6 +29,16 @@ func TestNewProject(t *testing.T) {
 
 	t.Run("save a project", func(t *testing.T) {
 		err := p.Save()
+		assert.NoError(t, err)
+		defer p.Delete(name)
+	})
+
+	t.Run("save a project from JSON", func(t *testing.T) {
+		err := p.SaveJSON(map[string]interface{}{
+			"name":    name,
+			"summary": summary,
+			"client":  client,
+		})
 		assert.NoError(t, err)
 	})
 
@@ -47,4 +60,5 @@ func TestNewProject(t *testing.T) {
 		err := p.Delete(name)
 		assert.NoError(t, err)
 	})
+
 }

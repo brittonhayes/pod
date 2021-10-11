@@ -16,7 +16,7 @@ var js string
 var css string
 
 func main() {
-	err := config.Run()
+	err := config.Setup()
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}

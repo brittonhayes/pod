@@ -4,14 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/brittonhayes/pod/backend/client"
-	"github.com/brittonhayes/pod/backend/project"
-	"github.com/brittonhayes/pod/backend/store"
 	"github.com/wailsapp/wails"
-)
-
-const (
-	dbName = "pod"
 )
 
 type Config struct {
@@ -23,23 +16,14 @@ func NewConfig() *Config {
 	return &Config{}
 }
 
-func Run() error {
-	projectPath := project.Folder()
-	err := os.MkdirAll(projectPath, os.ModePerm)
-	if err != nil {
-		return err
-	}
-
-	clientPath := client.Folder()
-	err = os.MkdirAll(clientPath, os.ModePerm)
-	if err != nil {
-		return err
-	}
-
+func Directory() string {
 	configDir, _ := os.UserConfigDir()
+	return filepath.Join(configDir, "pod")
+}
 
-	dbPath := filepath.Dir(store.Path(configDir, dbName))
-	err = os.MkdirAll(dbPath, os.ModePerm)
+func Setup() error {
+	dbPath := Directory()
+	err := os.MkdirAll(dbPath, os.ModePerm)
 	if err != nil {
 		return err
 	}
