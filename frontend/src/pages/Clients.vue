@@ -79,7 +79,7 @@ export default Vue.extend({
     }),
     viewClient: function(row: Client) {
       console.log(row);
-      this.$router.push("/profile/" + row.ID);
+      this.$router.push("/profile/" + row.id);
     },
   },
   computed: {

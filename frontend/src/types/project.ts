@@ -10,11 +10,11 @@ export interface Project extends GormModel {
   client?: Client;
 }
 
-export const ProjectSort: Array<string> = ["CreatedAt", "asc"];
+export const ProjectSort: Array<string> = ["created_at", "asc"];
 
 export const ProjectColumns: Array<Column> = [
   {
-    field: "ID",
+    field: "id",
     label: "ID",
     width: 10,
     numeric: true,
@@ -26,7 +26,7 @@ export const ProjectColumns: Array<Column> = [
     sortable: true,
   },
   {
-    field: "CreatedAt",
+    field: "created_at",
     label: "Created",
     visible: false,
     sortable: true,
@@ -36,17 +36,17 @@ export const ProjectColumns: Array<Column> = [
 
 export const DefaultProjects: Array<Project> = [
   {
-    ID: 1,
+    id: 1,
     name: "First Project",
     summary: "Foo bar",
-    client: { ID: 1, name: "joey" },
-    CreatedAt: new Date().toLocaleString(),
+    client: { id: 1, name: "joey" },
+    created_at: new Date().toLocaleString(),
   },
   {
-    ID: 2,
+    id: 2,
     name: "Second Project",
     summary: "Foo baz",
-    client: { ID: 2, name: "sarah" },
-    CreatedAt: new Date().toLocaleString(),
+    client: { id: 2, name: "sarah" },
+    created_at: new Date().toLocaleString(),
   },
 ];

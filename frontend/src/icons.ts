@@ -38,6 +38,7 @@ import {
   faEnvelope,
   faFolderOpen,
   faClipboardList,
+  faSave,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -77,7 +78,8 @@ library.add(
   faPhone,
   faEnvelope,
   faFolderOpen,
-  faClipboardList
+  faClipboardList,
+  faSave
 );
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

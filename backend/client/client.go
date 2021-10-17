@@ -1,7 +1,10 @@
 package client
 
 import (
+	"time"
+
 	"github.com/brittonhayes/pod/backend/store"
+	"github.com/mitchellh/mapstructure"
 	"gorm.io/gorm"
 )
 
@@ -10,20 +13,23 @@ var (
 )
 
 type Social struct {
-	Website   string `json:"website"`
-	Instagram string `json:"instagram"`
-	Twitter   string `json:"twitter"`
-	Facebook  string `json:"facebook"`
-	LinkedIn  string `json:"linkedin"`
+	Website   string `json:"website" mapstructure:"social_website"`
+	Instagram string `json:"instagram" mapstructure:"social_instagram"`
+	Twitter   string `json:"twitter"  mapstructure:"social_twitter"`
+	Facebook  string `json:"facebook"  mapstructure:"social_facebook"`
+	Linkedin  string `json:"linkedin"  mapstructure:"social_linkedin"`
 }
 type Client struct {
-	gorm.Model
+	ID        uint           `json:"id" gorm:"primarykey"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Email       string `json:"email"`
 	Phone       string `json:"phone"`
-	Social      Social `gorm:"embedded;embeddedPrefix:social_"`
+	Social      Social `gorm:"embedded;embeddedPrefix:social_" mapstructure:",squash"`
 
 	db string `gorm:"-"`
 }
@@ -63,13 +69,34 @@ func (c *Client) Save() error {
 	return tx.Error
 }
 
+func (c *Client) Update(payload map[string]interface{}) error {
+	db, err := store.New(c.db, &Client{})
+	if err != nil {
+		return err
+	}
+
+	err = mapstructure.Decode(payload, &c)
+	if err != nil {
+		return err
+	}
+
+	tx := db.Model(&c).Updates(c)
+
+	return tx.Error
+}
+
 func (c *Client) SaveJSON(payload map[string]interface{}) error {
 	db, err := store.New(c.db, &Client{})
 	if err != nil {
 		return err
 	}
 
-	tx := db.Model(&Client{}).Create(payload)
+	err = mapstructure.Decode(payload, &c)
+	if err != nil {
+		return err
+	}
+
+	tx := db.Model(&Client{}).Create(c)
 	return tx.Error
 }
 

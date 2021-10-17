@@ -1,12 +1,19 @@
 import { Column } from "@/types/table";
 import { GormModel } from "./gorm";
 
-export interface Client extends GormModel {
+export interface Social {
+  social_twitter?: string;
+  social_instagram?: string;
+  social_website?: string;
+  social_facebook?: string;
+  social_linkedin?: string;
+}
+
+export interface Client extends GormModel, Social {
   name: string;
   description?: string;
   email?: string;
   phone?: string;
-  social?: Object;
 }
 
 export const ClientSort: Array<string> = ["id", "desc"];
@@ -14,7 +21,7 @@ export const ClientSort: Array<string> = ["id", "desc"];
 export const ClientColumns: Array<Column> = [
   {
     label: "ID",
-    field: "ID",
+    field: "id",
     width: 10,
     numeric: true,
     sortable: true,
@@ -45,19 +52,19 @@ export const ClientColumns: Array<Column> = [
 
 export const DefaultClients: Array<Client> = [
   {
-    ID: 1,
+    id: 1,
     name: "James",
     description: "Foo bar",
     email: "james@example.com",
     phone: "123-456-7890",
-    CreatedAt: new Date().toLocaleString(),
+    created_at: new Date().toLocaleString(),
   },
   {
-    ID: 2,
+    id: 2,
     name: "Sarah",
     description: "Foo baz",
     email: "sarah@example.com",
     phone: "123-786-7890",
-    CreatedAt: new Date().toLocaleString(),
+    created_at: new Date().toLocaleString(),
   },
 ];

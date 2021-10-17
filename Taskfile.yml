@@ -19,6 +19,7 @@ tasks:
       - npm run test:unit
 
   test:backend:
+    dir: backend
     cmds:
       - go test -v -race -covermode=atomic -coverprofile=coverage.out ./...
       - go tool cover -func coverage.out

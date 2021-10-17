@@ -2,9 +2,11 @@ package project
 
 import (
 	"errors"
+	"time"
 
 	"github.com/brittonhayes/pod/backend/client"
 	"github.com/brittonhayes/pod/backend/store"
+	"github.com/mitchellh/mapstructure"
 	"gorm.io/gorm"
 )
 
@@ -15,20 +17,23 @@ var (
 )
 
 type Project struct {
-	gorm.Model
+	ID        uint           `json:"id" gorm:"primarykey"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
-	Name    string
-	Summary string
-
-	ClientID int
-	Client   client.Client
+	Name     string         `json:"name"`
+	Summary  string         `json:"summary"`
+	ClientID uint           `json:"client_id"`
+	Client   *client.Client `json:"client"`
 
 	db string `gorm:"-"`
 }
 
 func New(path string) *Project {
 	return &Project{
-		db: path,
+		db:     path,
+		Client: &client.Client{},
 	}
 }
 
@@ -39,7 +44,7 @@ func (p *Project) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-func (p *Project) With(name string, summary string, client client.Client) *Project {
+func (p *Project) With(name string, summary string, client *client.Client) *Project {
 	p.Name = name
 	p.Summary = summary
 	p.Client = client
@@ -47,7 +52,7 @@ func (p *Project) With(name string, summary string, client client.Client) *Proje
 }
 
 func (p *Project) Save() error {
-	db, err := store.New(p.db, p)
+	db, err := store.New(p.db, &Project{})
 	if err != nil {
 		return err
 	}
@@ -57,17 +62,22 @@ func (p *Project) Save() error {
 }
 
 func (p *Project) SaveJSON(payload map[string]interface{}) error {
-	db, err := store.New(p.db, p)
+	db, err := store.New(p.db, &Project{})
 	if err != nil {
 		return err
 	}
 
-	tx := db.Model(&p).Create(payload)
+	err = mapstructure.Decode(payload, &p)
+	if err != nil {
+		return err
+	}
+
+	tx := db.Model(&p).Save(p)
 	return tx.Error
 }
 
 func (p *Project) Delete(name string) error {
-	db, err := store.New(p.db, p)
+	db, err := store.New(p.db, &Project{})
 	if err != nil {
 		return err
 	}
@@ -77,7 +87,7 @@ func (p *Project) Delete(name string) error {
 }
 
 func (p *Project) FindByName(name string, limit int) ([]Project, error) {
-	db, err := store.New(p.db, p)
+	db, err := store.New(p.db, &Project{})
 	if err != nil {
 		return nil, err
 	}

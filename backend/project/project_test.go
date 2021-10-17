@@ -13,37 +13,48 @@ import (
 func TestNewProject(t *testing.T) {
 	config.Setup()
 
-	name := "Example Project"
-	summary := "Example summary"
-	client := client.Client{
-		Name: "Joey",
+	defaultName := "Example Project"
+	defaultSummary := "Example summary"
+	defaultClient := &client.Client{
+		ID:          1,
+		Name:        "Joey",
+		Description: "some words about joey",
+		Email:       "fake@example.com",
+		Phone:       "123-456-7890",
 	}
 
-	p := project.New(filepath.Join(t.TempDir(), "pod.db"))
-	p.With(name, summary, client)
+	dbPath := filepath.Join(t.TempDir(), "pod.db")
+
+	p := project.New(dbPath)
+	p.With(defaultName, defaultSummary, defaultClient)
+
+	c := client.New(dbPath)
+	c.With(defaultClient.Name, defaultClient.Description, defaultClient.Email, defaultClient.Phone)
+	c.Save()
 
 	t.Run("create new project", func(t *testing.T) {
-		assert.Equal(t, name, p.Name)
-		assert.Equal(t, summary, p.Summary)
+		assert.Equal(t, defaultName, p.Name)
+		assert.Equal(t, defaultSummary, p.Summary)
 	})
 
 	t.Run("save a project", func(t *testing.T) {
 		err := p.Save()
 		assert.NoError(t, err)
-		defer p.Delete(name)
 	})
 
 	t.Run("save a project from JSON", func(t *testing.T) {
+		t.Logf("%#v", p)
 		err := p.SaveJSON(map[string]interface{}{
-			"name":    name,
-			"summary": summary,
-			"client":  client,
+			"name":    defaultName,
+			"summary": defaultSummary,
+			"Client":  defaultClient,
 		})
 		assert.NoError(t, err)
+		defer p.Delete(defaultName)
 	})
 
 	t.Run("query a project by name", func(t *testing.T) {
-		projects, err := p.FindByName(name[0:3], 10)
+		projects, err := p.FindByName(defaultName[0:3], 10)
 		if assert.NoError(t, err) {
 			assert.NotNil(t, projects)
 		}
@@ -57,7 +68,7 @@ func TestNewProject(t *testing.T) {
 	})
 
 	t.Run("delete a project", func(t *testing.T) {
-		err := p.Delete(name)
+		err := p.Delete(defaultName)
 		assert.NoError(t, err)
 	})
 

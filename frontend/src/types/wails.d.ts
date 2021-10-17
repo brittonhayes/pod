@@ -1,3 +1,5 @@
+interface Config {
+}
 interface Storage {
 	FindClient(...args : any[]):Promise<any>
 	FindProject(...args : any[]):Promise<any>
@@ -6,14 +8,13 @@ interface Storage {
 	ListProjects(...args : any[]):Promise<any>
 	SaveClient(...args : any[]):Promise<any>
 	SaveProject(...args : any[]):Promise<any>
+	UpdateClient(...args : any[]):Promise<any>
 	WailsInit(...args : any[]):Promise<any>
 }
 interface ProjectState {
 	Set(...args : any[]):Promise<any>
 	Value(...args : any[]):Promise<any>
 	WailsInit(...args : any[]):Promise<any>
-}
-interface Config {
 }
 
 interface Backend {

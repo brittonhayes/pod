@@ -41,6 +41,15 @@ func (s *Storage) SaveClient(payload map[string]interface{}) error {
 	return c.SaveJSON(payload)
 }
 
+func (s *Storage) UpdateClient(payload map[string]interface{}) error {
+	if payload == nil {
+		return ErrPayloadNil
+	}
+
+	c := client.New(s.dbPath)
+	return c.Update(payload)
+}
+
 func (s *Storage) ListClips() ([]string, error) {
 	home, _ := os.UserHomeDir()
 	clipsDir := filepath.Join(home, "pod", "clips")

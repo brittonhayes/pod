@@ -55,7 +55,7 @@ export const ProjectsModule = {
     },
     [SET_ACTIVE](state: any, id: number) {
       state.active = state.projects.find(
-        (project: Project) => project.ID === id
+        (project: Project) => project.id === id
       );
     },
     [SET_LIST](state: any, payload: Array<Project>) {

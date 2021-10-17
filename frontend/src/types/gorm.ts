@@ -1,6 +1,6 @@
 export interface GormModel {
-  ID: number;
-  CreatedAt?: string | null;
-  DeletedAt?: string | null;
-  UpdatedAt?: string | null;
+  id: number;
+  created_at?: string | null;
+  deleted_at?: string | null;
+  updated_at?: string | null;
 }

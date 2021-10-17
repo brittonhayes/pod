@@ -26,7 +26,8 @@ func setupLogger() logger.Interface {
 	return logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
-			LogLevel: logger.Info,
+			LogLevel: logger.Error,
+			Colorful: true,
 		},
 	)
 }

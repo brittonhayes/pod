@@ -1,4 +1,5 @@
 import { PropType } from "vue";
+import { ToastProgrammatic as Toast } from "buefy";
 
 import { Client } from "@/types/client";
 import {
@@ -9,6 +10,7 @@ import {
   IS_ENABLED,
   UPDATE_FROM_DB,
   SUBMIT_FORM,
+  UPDATE_ITEM,
 } from "@/store/mutations";
 
 export const ClientsModule = {
@@ -32,7 +34,7 @@ export const ClientsModule = {
       state.enabled = !state.enabled;
     },
     [SET_ACTIVE](state: any, id: number) {
-      state.active = state.clients.find((client: Client) => client.ID === id);
+      state.active = state.clients.find((client: Client) => client.id === id);
     },
     [SET_LIST](state: any, payload: Array<Client>) {
       state.clients = payload;
@@ -44,6 +46,30 @@ export const ClientsModule = {
         })
         .catch((err) => {
           console.error(err);
+          Toast.open({
+            message: "failed to submit",
+            type: "is-danger",
+            position: "is-bottom",
+          });
+        });
+    },
+    [UPDATE_ITEM](state: any, form: Client) {
+      window.backend.Storage.UpdateClient(form)
+        .then((res) => {
+          state.active = res;
+          Toast.open({
+            message: `Updated client`,
+            type: "is-success",
+            position: "is-bottom",
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          Toast.open({
+            message: "failed to submit",
+            type: "is-warning",
+            position: "is-bottom",
+          });
         });
     },
     [UPDATE_FROM_DB](state: any) {
@@ -65,6 +91,9 @@ export const ClientsModule = {
     },
     [SUBMIT_FORM](context: any, form: Client) {
       context.commit(SUBMIT_FORM, form);
+    },
+    [UPDATE_ITEM](context: any, form: Client) {
+      context.commit(UPDATE_ITEM, form);
     },
   },
 };
