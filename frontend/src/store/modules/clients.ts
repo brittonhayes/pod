@@ -5,13 +5,15 @@ import { Client } from "@/types/client";
 import {
   SET_ACTIVE,
   SET_ENABLED,
-  TOGGLE_ENABLED,
+  TOGGLE,
   SET_LIST,
   IS_ENABLED,
-  UPDATE_FROM_DB,
-  SUBMIT_FORM,
-  UPDATE_ITEM,
+  REFRESH,
+  SAVE,
+  UPDATE,
+  SEARCH,
 } from "@/store/mutations";
+import { Query } from "@/types/gorm";
 
 export const ClientsModule = {
   namespaced: true,
@@ -20,6 +22,7 @@ export const ClientsModule = {
     clients: Array<Client>(),
     form: Object as PropType<Client>,
     enabled: false,
+    limit: 25,
   }),
   getters: {
     [IS_ENABLED](state: any): Boolean {
@@ -30,7 +33,7 @@ export const ClientsModule = {
     [SET_ENABLED](state: any, value: Boolean) {
       state.enabled = value;
     },
-    [TOGGLE_ENABLED](state: any) {
+    [TOGGLE](state: any) {
       state.enabled = !state.enabled;
     },
     [SET_ACTIVE](state: any, id: number) {
@@ -39,7 +42,7 @@ export const ClientsModule = {
     [SET_LIST](state: any, payload: Array<Client>) {
       state.clients = payload;
     },
-    [SUBMIT_FORM](state: any, form: Client) {
+    [SAVE](state: any, form: Client) {
       window.backend.Storage.SaveClient(form)
         .then((res) => {
           state.active = res;
@@ -53,7 +56,7 @@ export const ClientsModule = {
           });
         });
     },
-    [UPDATE_ITEM](state: any, form: Client) {
+    [UPDATE](state: any, form: Client) {
       window.backend.Storage.UpdateClient(form)
         .then((res) => {
           state.active = res;
@@ -72,7 +75,19 @@ export const ClientsModule = {
           });
         });
     },
-    [UPDATE_FROM_DB](state: any) {
+    [SEARCH](state: any, query: Query) {
+      window.backend.Storage.SearchClients(query.name, query.limit)
+        .then((res) => {
+          if (res !== null) {
+            state.clients = res;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          state.clients = [{}];
+        });
+    },
+    [REFRESH](state: any) {
       window.backend.Storage.ListClients()
         .then((res) => {
           if (res !== null) {
@@ -86,14 +101,17 @@ export const ClientsModule = {
     },
   },
   actions: {
-    [UPDATE_FROM_DB](context: any) {
-      context.commit(UPDATE_FROM_DB);
+    [REFRESH](context: any) {
+      context.commit(REFRESH);
     },
-    [SUBMIT_FORM](context: any, form: Client) {
-      context.commit(SUBMIT_FORM, form);
+    [SAVE](context: any, form: Client) {
+      context.commit(SAVE, form);
     },
-    [UPDATE_ITEM](context: any, form: Client) {
-      context.commit(UPDATE_ITEM, form);
+    [SEARCH](context: any, query: Query) {
+      context.commit(SAVE, query);
+    },
+    [UPDATE](context: any, form: Client) {
+      context.commit(UPDATE, form);
     },
   },
 };

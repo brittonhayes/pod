@@ -24,6 +24,21 @@
         <client-form v-bind="client"></client-form>
       </b-modal>
     </section>
+    <b-field class="mb-5">
+      <b-input
+        lazy
+        expanded
+        placeholder="Search..."
+        type="search"
+        v-model="query"
+      >
+      </b-input>
+      <p class="control">
+        <b-button class="button is-primary" @click="searchClients"
+          >Search</b-button
+        >
+      </p>
+    </b-field>
     <Table
       :data="items"
       :columns="columns"
@@ -46,10 +61,12 @@ import { ClientSort, ClientColumns, Client } from "@/types/client";
 import { mapMutations, mapState, mapGetters } from "vuex";
 import {
   IS_ENABLED,
-  UPDATE_FROM_DB,
-  TOGGLE_ENABLED,
+  REFRESH,
+  TOGGLE,
   Namespace,
+  SEARCH,
 } from "@/store/mutations";
+import { Query } from "@/types/gorm";
 
 export default Vue.extend({
   mixins: [Page],
@@ -61,6 +78,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      query: "",
       client: {
         type: Object as PropType<Client>,
         default: () => {},
@@ -70,13 +88,19 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
+    this.$store.commit(Namespace.Clients + REFRESH);
   },
   methods: {
     ...mapMutations({
-      updateFromDB: Namespace.Clients + UPDATE_FROM_DB,
-      toggleModal: Namespace.Clients + TOGGLE_ENABLED,
+      updateFromDB: Namespace.Clients + REFRESH,
+      toggleModal: Namespace.Clients + TOGGLE,
     }),
+    searchClients: function() {
+      this.$store.commit(Namespace.Clients + SEARCH, {
+        name: this.query,
+        limit: 25,
+      } as Query);
+    },
     viewClient: function(row: Client) {
       console.log(row);
       this.$router.push("/profile/" + row.id);

@@ -81,13 +81,27 @@ func (s *Storage) ListProjects() ([]project.Project, error) {
 	return p, err
 }
 
-func (s *Storage) FindProject(name string, limit int) ([]project.Project, error) {
+func (s *Storage) SearchProjects(name string, limit int) ([]project.Project, error) {
 	p, err := project.New(s.dbPath).FindByName(name, limit)
 	return p, err
 }
 
+func (s *Storage) SearchClients(name string, limit int) ([]client.Client, error) {
+	c, err := client.New(s.dbPath).FindByName(name, limit)
+	return c, err
+}
+
 func (s *Storage) FindClient(id int) (*client.Client, error) {
 	return client.New(s.dbPath).GetByID(id)
+}
+
+func (s *Storage) UpdateProject(payload map[string]interface{}) error {
+	if payload == nil {
+		return ErrPayloadNil
+	}
+
+	p := project.New(s.dbPath)
+	return p.Update(payload)
 }
 
 func (s *Storage) SaveProject(payload map[string]interface{}) (*project.Project, error) {

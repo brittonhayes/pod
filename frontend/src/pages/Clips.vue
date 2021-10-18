@@ -39,7 +39,7 @@ import Container from "@/components/Container.vue";
 import Banner from "@/components/Banner.vue";
 
 import { mapState, mapMutations } from "vuex";
-import { Namespace, UPDATE_FROM_DB } from "@/store/mutations";
+import { Namespace, REFRESH } from "@/store/mutations";
 import { Player } from "tone";
 import { Processor } from "@/lib/dsp";
 
@@ -58,11 +58,11 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
+    this.$store.commit(Namespace.Clients + REFRESH);
   },
   methods: {
     ...mapMutations({
-      updateFromDB: UPDATE_FROM_DB,
+      updateFromDB: REFRESH,
     }),
   },
   watch: {

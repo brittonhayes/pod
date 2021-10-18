@@ -76,6 +76,22 @@ func (p *Project) SaveJSON(payload map[string]interface{}) error {
 	return tx.Error
 }
 
+func (p *Project) Update(payload map[string]interface{}) error {
+	db, err := store.New(p.db, &Project{})
+	if err != nil {
+		return err
+	}
+
+	err = mapstructure.Decode(payload, &p)
+	if err != nil {
+		return err
+	}
+
+	tx := db.Model(&p).Updates(p)
+
+	return tx.Error
+}
+
 func (p *Project) Delete(name string) error {
 	db, err := store.New(p.db, &Project{})
 	if err != nil {

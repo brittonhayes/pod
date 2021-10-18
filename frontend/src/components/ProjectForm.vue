@@ -31,12 +31,7 @@
 </template>
 
 <script lang="ts">
-import {
-  SUBMIT_FORM,
-  UPDATE_FROM_DB,
-  TOGGLE_ENABLED,
-  Namespace,
-} from "@/store/mutations";
+import { SAVE, REFRESH, TOGGLE, Namespace } from "@/store/mutations";
 
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
@@ -58,12 +53,12 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations({
-      toggleModal: Namespace.Projects + TOGGLE_ENABLED,
+      toggleModal: Namespace.Projects + TOGGLE,
     }),
     SubmitProject: function() {
-      this.$store.commit(Namespace.Projects + SUBMIT_FORM, this.form);
-      this.$store.commit(Namespace.Projects + UPDATE_FROM_DB);
-      this.$store.commit(Namespace.Projects + TOGGLE_ENABLED);
+      this.$store.commit(Namespace.Projects + SAVE, this.form);
+      this.$store.commit(Namespace.Projects + REFRESH);
+      this.$store.commit(Namespace.Projects + TOGGLE);
     },
   },
   computed: {

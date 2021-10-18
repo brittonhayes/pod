@@ -11,6 +11,19 @@ import (
 )
 
 func TestDB(t *testing.T) {
+	t.Run("parse keywords", func(t *testing.T) {
+		key := "key"
+		args := map[string]string{
+			"foo":  "key:foo",
+			"baz":  "key:baz",
+			"bing": "key:bing",
+		}
+
+		for expect, raw := range args {
+			assert.Equal(t, expect, store.ParseKeywords(key, raw))
+		}
+	})
+
 	t.Run("test new db", func(t *testing.T) {
 		dbPath := filepath.Join(t.TempDir(), "test.db")
 

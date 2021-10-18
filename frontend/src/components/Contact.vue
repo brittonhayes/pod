@@ -116,7 +116,7 @@
 import Vue, { PropType } from "vue";
 import Page from "@/mixins/Page";
 import { Client } from "@/types/client";
-import { Namespace, UPDATE_ITEM } from "@/store/mutations";
+import { Namespace, UPDATE } from "@/store/mutations";
 
 export default Vue.extend({
   mixins: [Page],
@@ -134,7 +134,7 @@ export default Vue.extend({
   },
   methods: {
     updateClient: function() {
-      this.$store.commit(Namespace.Clients + UPDATE_ITEM, this.client);
+      this.$store.commit(Namespace.Clients + UPDATE, this.client);
       this.toggleEdit();
       this.loadClient();
     },

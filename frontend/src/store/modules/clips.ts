@@ -1,4 +1,4 @@
-import { UPDATE_FROM_DB } from "@/store/mutations";
+import { REFRESH } from "@/store/mutations";
 
 export const ClipsModule = {
   namespaced: true,
@@ -6,7 +6,7 @@ export const ClipsModule = {
     clips: Array<string>(),
   }),
   mutations: {
-    [UPDATE_FROM_DB](state: any) {
+    [REFRESH](state: any) {
       window.backend.Storage.ListClips()
         .then((res) => {
           state.clips = res;
@@ -17,8 +17,8 @@ export const ClipsModule = {
     },
   },
   actions: {
-    [UPDATE_FROM_DB](context: any) {
-      context.commit(UPDATE_FROM_DB);
+    [REFRESH](context: any) {
+      context.commit(REFRESH);
     },
   },
   getters: {},

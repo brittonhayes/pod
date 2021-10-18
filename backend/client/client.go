@@ -1,6 +1,7 @@
 package client
 
 import (
+	"strings"
 	"time"
 
 	"github.com/brittonhayes/pod/backend/store"
@@ -109,14 +110,35 @@ func (c *Client) Delete(name string) error {
 	return tx.Error
 }
 
-func (c *Client) FindByName(name string, limit int) ([]Client, error) {
+func fuzzy(value string) string {
+	if value == "" {
+		return "*"
+	}
+
+	if !strings.HasPrefix(value, "%") {
+		value = "%" + value
+	}
+
+	if !strings.HasSuffix(value, "%") {
+		value = value + "%"
+	}
+	return value
+}
+
+func (c *Client) FindByName(query string, limit int) ([]Client, error) {
 	db, err := store.New(c.db, &Client{})
 	if err != nil {
 		return nil, err
 	}
 
 	var clients []Client
-	tx := db.Model(c).Limit(limit).Where("name LIKE ?", name).Find(&clients)
+	if query == "*" || query == "" {
+		tx := db.Table(TableName).Select("*").Scan(&clients)
+		return clients, tx.Error
+	}
+
+	q := fuzzy(query)
+	tx := db.Model(c).Limit(limit).Where("name LIKE ? OR description LIKE ? OR email LIKE ? OR phone LIKE ?", q, q, q, q).Find(&clients)
 
 	return clients, tx.Error
 }
@@ -127,7 +149,7 @@ func (c *Client) List() ([]Client, error) {
 		return nil, err
 	}
 
-	var projects []Client
-	tx := db.Table(TableName).Select("*").Scan(&projects)
-	return projects, tx.Error
+	var clients []Client
+	tx := db.Table(TableName).Select("*").Scan(&clients)
+	return clients, tx.Error
 }

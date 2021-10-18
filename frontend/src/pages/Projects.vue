@@ -50,8 +50,8 @@ import {
   IS_ENABLED,
   Namespace,
   SET_ENABLED,
-  TOGGLE_ENABLED,
-  UPDATE_FROM_DB,
+  TOGGLE,
+  REFRESH,
 } from "@/store/mutations";
 import { Project, ProjectColumns, ProjectSort } from "@/types/project";
 
@@ -76,15 +76,15 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations({
-      updateFromDB: Namespace.Projects + UPDATE_FROM_DB,
-      toggleModal: Namespace.Projects + TOGGLE_ENABLED,
+      updateFromDB: Namespace.Projects + REFRESH,
+      toggleModal: Namespace.Projects + TOGGLE,
     }),
   },
   beforeMount() {
     this.$store.commit(Namespace.Projects + SET_ENABLED, false);
   },
   mounted() {
-    this.$store.commit(Namespace.Projects + UPDATE_FROM_DB);
+    this.$store.commit(Namespace.Projects + REFRESH);
   },
   computed: {
     ...mapGetters({ modalEnabled: Namespace.Projects + IS_ENABLED }),

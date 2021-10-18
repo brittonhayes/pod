@@ -23,12 +23,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  SUBMIT_FORM,
-  UPDATE_FROM_DB,
-  TOGGLE_ENABLED,
-  Namespace,
-} from "@/store/mutations";
+import { SAVE, REFRESH, TOGGLE, Namespace } from "@/store/mutations";
 import { mapMutations } from "vuex";
 
 export default Vue.extend({
@@ -49,12 +44,12 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations({
-      toggleModal: Namespace.Clients + TOGGLE_ENABLED,
+      toggleModal: Namespace.Clients + TOGGLE,
     }),
     SubmitClient: function() {
-      this.$store.commit(Namespace.Clients + SUBMIT_FORM, this.form);
-      this.$store.commit(Namespace.Clients + UPDATE_FROM_DB);
-      this.$store.commit(Namespace.Clients + TOGGLE_ENABLED);
+      this.$store.commit(Namespace.Clients + SAVE, this.form);
+      this.$store.commit(Namespace.Clients + REFRESH);
+      this.$store.commit(Namespace.Clients + TOGGLE);
     },
   },
 });

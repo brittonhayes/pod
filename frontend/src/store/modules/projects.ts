@@ -4,10 +4,10 @@ import {
   SET_ACTIVE,
   SET_LIST,
   SYNC_FORM,
-  SUBMIT_FORM,
-  UPDATE_FROM_DB,
+  SAVE,
+  REFRESH,
   SET_ENABLED,
-  TOGGLE_ENABLED,
+  TOGGLE,
   IS_ENABLED,
 } from "@/store/mutations";
 
@@ -28,13 +28,13 @@ export const ProjectsModule = {
     [SET_ENABLED](state: any, value: Boolean) {
       state.enabled = value;
     },
-    [TOGGLE_ENABLED](state: any) {
+    [TOGGLE](state: any) {
       state.enabled = !state.enabled;
     },
     [SYNC_FORM](state: any, form: Project) {
       state.form = form;
     },
-    [SUBMIT_FORM](state: any, form: Project) {
+    [SAVE](state: any, form: Project) {
       window.backend.Storage.SaveProject(form)
         .then((res) => {
           state.active = res;
@@ -43,7 +43,7 @@ export const ProjectsModule = {
           console.error(err);
         });
     },
-    [UPDATE_FROM_DB](state: any) {
+    [REFRESH](state: any) {
       window.backend.Storage.ListProjects()
         .then((res) => {
           state.projects = res;
@@ -63,11 +63,11 @@ export const ProjectsModule = {
     },
   },
   actions: {
-    [UPDATE_FROM_DB](context: any) {
-      context.commit(UPDATE_FROM_DB);
+    [REFRESH](context: any) {
+      context.commit(REFRESH);
     },
-    [SUBMIT_FORM](context: any, form: Project) {
-      context.commit(SUBMIT_FORM, form);
+    [SAVE](context: any, form: Project) {
+      context.commit(SAVE, form);
     },
   },
 };

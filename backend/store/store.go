@@ -33,10 +33,8 @@ func setupLogger() logger.Interface {
 }
 
 func New(path string, migrations ...interface{}) (*gorm.DB, error) {
+
 	logger := setupLogger()
-	if !strings.HasSuffix(path, ".db") {
-		path += ".db"
-	}
 
 	db, err := gorm.Open(sqlite.Open(path), &gorm.Config{
 		PrepareStmt: true,
@@ -49,4 +47,18 @@ func New(path string, migrations ...interface{}) (*gorm.DB, error) {
 	err = db.AutoMigrate(migrations...)
 
 	return db, err
+}
+
+func HasKeywords(key, value string) bool {
+	return strings.Contains(value, key+":")
+}
+
+func ParseKeywords(key string, value string) string {
+	if !HasKeywords(key, value) {
+		return key
+	}
+
+	split := strings.SplitAfter(value, ":")
+	q := strings.TrimSpace(split[1])
+	return q
 }
